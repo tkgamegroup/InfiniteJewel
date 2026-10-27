@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://qipx32obyrgn"]
+
+[ext_resource type="Script" uid="uid://4i80l3ajowyj" path="res://uis/building.gd" id="1_wlne7"]
+
+[node name="Building" type="FoldableContainer" unique_id=1575978750 node_paths=PackedStringArray("product_name", "product_progress", "timer")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wlne7")
+product_name = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/Label")
+product_progress = NodePath("VBoxContainer/VBoxContainer/HBoxContainer/ProgressBar")
+timer = NodePath("Timer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=601276348]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer" unique_id=1677405857]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+columns = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=2106858336]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1717305926]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1694640882]
+layout_mode = 2
+text = "--"
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/VBoxContainer/HBoxContainer" unique_id=970133848]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Timer" type="Timer" parent="." unique_id=1464416422]
+wait_time = 0.1
+autostart = true

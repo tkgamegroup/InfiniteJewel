@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://bprmmmbm1hmdk"]
+
+[ext_resource type="Script" uid="uid://blev6leed17gg" path="res://uis/talent.gd" id="1_rydx6"]
+[ext_resource type="Texture2D" uid="uid://ba131eh356hwj" path="res://images/talent_dummy.png" id="2_4mjps"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhunq"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[node name="Talent" type="Control" unique_id=1048144208 node_paths=PackedStringArray("button", "txt")]
+custom_minimum_size = Vector2(42, 69)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_rydx6")
+button = NodePath("VBoxContainer/PanelContainer/Button")
+txt = NodePath("VBoxContainer/Label")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=294787383]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1709483005]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bhunq")
+
+[node name="Button" type="TextureButton" parent="VBoxContainer/PanelContainer" unique_id=1087526239]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("2_4mjps")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=561052571]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0/5"

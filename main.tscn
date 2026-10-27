@@ -1,0 +1,280 @@
+[gd_scene format=3 uid="uid://bhckq4khjdqv1"]
+
+[ext_resource type="Script" uid="uid://duf2gyuk4ql0k" path="res://uis/board.gd" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://e073vanpw5rk" path="res://images/empty.png" id="2_272bh"]
+[ext_resource type="Script" uid="uid://coag0mhey108w" path="res://uis/board_content.gd" id="2_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://cqgd5d3xgw8mr" path="res://images/red.png" id="3_272bh"]
+[ext_resource type="Texture2D" uid="uid://bocp8b6atf1rc" path="res://images/yellow.png" id="4_5vw27"]
+[ext_resource type="Texture2D" uid="uid://1emgqiiu1kac" path="res://images/green.png" id="5_kek77"]
+[ext_resource type="Texture2D" uid="uid://c3tiadcajd1vi" path="res://images/blue.png" id="6_4c57u"]
+[ext_resource type="Texture2D" uid="uid://dwktawp1o8036" path="res://images/purple.png" id="7_efxa6"]
+[ext_resource type="Script" uid="uid://dsl712x2wqwyh" path="res://uis/hover.gd" id="8_5vw27"]
+[ext_resource type="Texture2D" uid="uid://c2rk7qvr4l6v" path="res://images/bomb.png" id="8_efxa6"]
+[ext_resource type="Script" uid="uid://c02awn7mwfhkp" path="res://uis/patterns.gd" id="8_kek77"]
+[ext_resource type="Script" uid="uid://dvm2u82v7m7v0" path="res://uis/warehouse.gd" id="9_4c57u"]
+[ext_resource type="Texture2D" uid="uid://dgun2kqrxby0m" path="res://images/flag.png" id="10_vivmo"]
+[ext_resource type="Script" uid="uid://5dr1xo6hyp21" path="res://uis/talents.gd" id="11_dg77c"]
+[ext_resource type="PackedScene" uid="uid://qipx32obyrgn" path="res://uis/building.tscn" id="12_w48qg"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5vw27"]
+texture = ExtResource("2_272bh")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dg77c"]
+texture = ExtResource("3_272bh")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ycdy4"]
+texture = ExtResource("4_5vw27")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w48qg"]
+texture = ExtResource("5_kek77")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vivmo"]
+texture = ExtResource("6_4c57u")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2cqfq"]
+texture = ExtResource("7_efxa6")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yaehf"]
+texture = ExtResource("8_efxa6")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_074og"]
+texture = ExtResource("10_vivmo")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_0xm2m"]
+tile_shape = 3
+tile_offset_axis = 1
+sources/0 = SubResource("TileSetAtlasSource_5vw27")
+sources/1 = SubResource("TileSetAtlasSource_dg77c")
+sources/2 = SubResource("TileSetAtlasSource_ycdy4")
+sources/3 = SubResource("TileSetAtlasSource_w48qg")
+sources/4 = SubResource("TileSetAtlasSource_vivmo")
+sources/5 = SubResource("TileSetAtlasSource_2cqfq")
+sources/6 = SubResource("TileSetAtlasSource_yaehf")
+sources/7 = SubResource("TileSetAtlasSource_074og")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_riqys"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kek77"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4c57u"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="Main" type="Node2D" unique_id=1806078949]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=926533814]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1614153213]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Board" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=619510278 node_paths=PackedStringArray("scroller", "tilemap", "content")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("1_ig7tw")
+scroller = NodePath("ScrollContainer")
+tilemap = NodePath("ScrollContainer/Content/TileMap")
+content = NodePath("ScrollContainer/Content")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/HBoxContainer/Board" unique_id=700748220]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="Content" type="Control" parent="CanvasLayer/HBoxContainer/Board/ScrollContainer" unique_id=1231251078]
+layout_mode = 2
+script = ExtResource("2_ycdy4")
+
+[node name="TileMap" type="TileMapLayer" parent="CanvasLayer/HBoxContainer/Board/ScrollContainer/Content" unique_id=130055754]
+tile_set = SubResource("TileSet_0xm2m")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=1590163407]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1868571629]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "0"
+
+[node name="Patterns" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1068804816 node_paths=PackedStringArray("list", "shop_button", "shop", "shop_list", "shop_refresh_button")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_riqys")
+title = "Patterns"
+script = ExtResource("8_kek77")
+list = NodePath("VBoxContainer/List")
+shop_button = NodePath("VBoxContainer/ShopButton")
+shop = NodePath("VBoxContainer/MarginContainer/Shop")
+shop_list = NodePath("VBoxContainer/MarginContainer/Shop/HBoxContainer")
+shop_refresh_button = NodePath("VBoxContainer/MarginContainer/Shop/RefreshButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns" unique_id=350805255]
+layout_mode = 2
+
+[node name="List" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer" unique_id=279225395]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ShopButton" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer" unique_id=1952090656]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Shop>>"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer" unique_id=1667259228]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Shop" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer/MarginContainer" unique_id=542330204]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=635449697]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+[node name="RefreshButton" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=566980404]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Refresh"
+
+[node name="Warehouse" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=2136428860 node_paths=PackedStringArray("list")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kek77")
+title = "Warehouse"
+script = ExtResource("9_4c57u")
+list = NodePath("VBoxContainer/PanelContainer/GridContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Warehouse" unique_id=1690119567]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Warehouse/VBoxContainer" unique_id=605488020]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4c57u")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Warehouse/VBoxContainer/PanelContainer" unique_id=1710282559]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+columns = 8
+
+[node name="Factory" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1575978750 instance=ExtResource("12_w48qg")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+title = "Factory"
+
+[node name="TailorShop" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1396936368 instance=ExtResource("12_w48qg")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+title = "TailorShop"
+
+[node name="Talents" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1901142948 node_paths=PackedStringArray("container")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kek77")
+title = "Talents"
+script = ExtResource("11_dg77c")
+container = NodePath("VBoxContainer/PanelContainer/GridContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents" unique_id=1204611643]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents/VBoxContainer" unique_id=240023571]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4c57u")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents/VBoxContainer/PanelContainer" unique_id=464074446]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents/VBoxContainer" unique_id=1219730906]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Test"
+
+[node name="Debug" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1994131737]
+layout_mode = 2
+title = "Debug"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug" unique_id=69413074]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer" unique_id=887293904]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=1758486257]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=763656794]
+layout_mode = 2
+text = "click to clear"
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=1613812855]
+layout_mode = 2
+prefix = "range"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer" unique_id=1764794696]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=2012831827]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=1735016617]
+layout_mode = 2
+text = "click to spawn"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=1962080397]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Bomb"
+popup/item_0/id = 0
+popup/item_1/text = "Flag"
+popup/item_1/id = 1
+
+[node name="Hover" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1425160865 node_paths=PackedStringArray("txt")]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("8_5vw27")
+txt = NodePath("Text")
+
+[node name="Text" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Hover" unique_id=860818878]
+layout_mode = 2
+
+[node name="StepTimer" type="Timer" parent="." unique_id=1020722935]
+wait_time = 0.1
+autostart = true
+
+[node name="RefreshTimer" type="Timer" parent="." unique_id=101828893]
+wait_time = 0.1
+autostart = true
+
+[node name="BoardSizeTimer" type="Timer" parent="." unique_id=1955125779]
+wait_time = 5.0
+autostart = true
+
+[node name="HoverTimer" type="Timer" parent="." unique_id=1038241998]
+wait_time = 0.1

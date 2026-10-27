@@ -1,0 +1,71 @@
+[gd_resource type="Resource" script_class="TalentTree" format=3 uid="uid://cuec3l8g0e5k6"]
+
+[ext_resource type="Script" uid="uid://dd4do0lmqm6bu" path="res://objects/talent_tree.gd" id="1_ycrej"]
+[ext_resource type="Script" uid="uid://dg6npybf7hsgn" path="res://objects/talent.gd" id="2_givgc"]
+[ext_resource type="Script" uid="uid://cxoxr2w7axopj" path="res://objects/modifier_target.gd" id="3_el0q0"]
+
+[sub_resource type="Resource" id="Resource_ycdy4"]
+script = ExtResource("3_el0q0")
+target_type = &"Pattern"
+target_attribute = &"Damage"
+value_per_lv = 1
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_dg77c"]
+script = ExtResource("2_givgc")
+column = 1
+max_lv = 3
+modifiers = Array[ExtResource("3_el0q0")]([SubResource("Resource_ycdy4")])
+description = "Increase your Patterns' Attack by 1."
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_rs471"]
+script = ExtResource("3_el0q0")
+target_type = &"Gem"
+target_attribute = &"Value"
+value_per_lv = 1
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_4mjps"]
+script = ExtResource("2_givgc")
+column = 3
+max_lv = 3
+modifiers = Array[ExtResource("3_el0q0")]([SubResource("Resource_rs471")])
+description = "Increase your Gems' value by 1."
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_vivmo"]
+script = ExtResource("3_el0q0")
+target_type = &"Game"
+target_attribute = &"FactoryEnable"
+type = 2
+base_value = 1
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_w48qg"]
+script = ExtResource("2_givgc")
+row = 1
+modifiers = Array[ExtResource("3_el0q0")]([SubResource("Resource_vivmo")])
+description = "Enable Factory. You can produce Items there."
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_p5d6p"]
+script = ExtResource("3_el0q0")
+target_type = &"Game"
+target_attribute = &"TailorShopEnable"
+type = 2
+base_value = 1
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_ucfgc"]
+script = ExtResource("2_givgc")
+row = 1
+column = 3
+modifiers = Array[ExtResource("3_el0q0")]([SubResource("Resource_p5d6p")])
+description = "Enable Tailor Shop. You can produce Items there."
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[resource]
+script = ExtResource("1_ycrej")
+tree = Array[ExtResource("2_givgc")]([SubResource("Resource_dg77c"), SubResource("Resource_4mjps"), SubResource("Resource_w48qg"), SubResource("Resource_ucfgc")])
+metadata/_custom_type_script = "uid://dd4do0lmqm6bu"

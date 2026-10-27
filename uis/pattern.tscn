@@ -1,0 +1,31 @@
+[gd_scene format=4 uid="uid://ct8pyfaf240h8"]
+
+[ext_resource type="Script" uid="uid://d37w4q4o4ag16" path="res://uis/pattern.gd" id="1_s5cr7"]
+[ext_resource type="Texture2D" uid="uid://ck5egklqvwaw2" path="res://images/outline.png" id="2_d8588"]
+[ext_resource type="Texture2D" uid="uid://bkpwfmpgg542b" path="res://images/filled.png" id="2_q5hfv"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uk2q8"]
+texture = ExtResource("2_q5hfv")
+0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.39215687)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q5hfv"]
+texture = ExtResource("2_d8588")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_bhunq"]
+tile_shape = 3
+tile_offset_axis = 1
+sources/1 = SubResource("TileSetAtlasSource_q5hfv")
+sources/0 = SubResource("TileSetAtlasSource_uk2q8")
+
+[node name="Pattern" type="VBoxContainer" unique_id=378630255 node_paths=PackedStringArray("tilemap")]
+custom_minimum_size = Vector2(52, 72)
+offset_right = 52.0
+offset_bottom = 72.0
+script = ExtResource("1_s5cr7")
+tilemap = NodePath("TileMapLayer")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1110975989]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_bhunq")
