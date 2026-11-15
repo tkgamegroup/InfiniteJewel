@@ -1,0 +1,84 @@
+[gd_resource type="Resource" script_class="BuildingDatas" format=3 uid="uid://b2d7rxm5u6rna"]
+
+[ext_resource type="Script" uid="uid://bwtqcmltyt5yj" path="res://resources/building_data.gd" id="1_ou7ff"]
+[ext_resource type="Script" uid="uid://bjwgs0q2i0vgo" path="res://resources/product.gd" id="3_ou7ff"]
+[ext_resource type="Script" uid="uid://da8m32nmdf61p" path="res://resources/building_datas.gd" id="5_rqvk7"]
+
+[sub_resource type="Resource" id="Resource_getpj"]
+script = ExtResource("3_ou7ff")
+type_name = &"Item"
+name = "Bomb"
+duration = 150
+metadata/_custom_type_script = "uid://bjwgs0q2i0vgo"
+
+[sub_resource type="Resource" id="Resource_d13ii"]
+script = ExtResource("3_ou7ff")
+type_name = &"Spell"
+name = "upgrade"
+index = 13
+duration = 500
+metadata/_custom_type_script = "uid://bjwgs0q2i0vgo"
+
+[sub_resource type="Resource" id="Resource_rk8ai"]
+script = ExtResource("3_ou7ff")
+type_name = &"Tech"
+name = "Explosive Refinement"
+index = 8
+building_lv = 2
+duration = 1200
+metadata/_custom_type_script = "uid://bjwgs0q2i0vgo"
+
+[sub_resource type="Resource" id="Resource_eupy7"]
+script = ExtResource("3_ou7ff")
+type_name = &"Spell"
+name = "upgrade"
+index = 13
+duration = 700
+metadata/_custom_type_script = "uid://bjwgs0q2i0vgo"
+
+[sub_resource type="Resource" id="Resource_bsuei"]
+script = ExtResource("3_ou7ff")
+type_name = &"Item"
+name = "C4"
+building_lv = 3
+duration = 150
+metadata/_custom_type_script = "uid://bjwgs0q2i0vgo"
+
+[sub_resource type="Resource" id="Resource_y6ced"]
+script = ExtResource("1_ou7ff")
+name = "Workshop"
+description = "Produce bombs, etc."
+products = Array[ExtResource("3_ou7ff")]([SubResource("Resource_getpj"), SubResource("Resource_d13ii"), SubResource("Resource_rk8ai"), SubResource("Resource_eupy7"), SubResource("Resource_bsuei")])
+metadata/_custom_type_script = "uid://bwtqcmltyt5yj"
+
+[sub_resource type="Resource" id="Resource_ou7ff"]
+script = ExtResource("3_ou7ff")
+type_name = &"Item"
+name = "Flag"
+duration = 300
+metadata/_custom_type_script = "uid://bjwgs0q2i0vgo"
+
+[sub_resource type="Resource" id="Resource_6pipo"]
+script = ExtResource("1_ou7ff")
+name = "Tailor Shop"
+description = "Produce flags, etc."
+products = Array[ExtResource("3_ou7ff")]([SubResource("Resource_ou7ff")])
+metadata/_custom_type_script = "uid://bwtqcmltyt5yj"
+
+[sub_resource type="Resource" id="Resource_ryguw"]
+script = ExtResource("3_ou7ff")
+type_name = &"Spell"
+name = "chain_lightning"
+duration = 180
+metadata/_custom_type_script = "uid://bjwgs0q2i0vgo"
+
+[sub_resource type="Resource" id="Resource_7s7pe"]
+script = ExtResource("1_ou7ff")
+name = "Shaman's Hut"
+products = Array[ExtResource("3_ou7ff")]([SubResource("Resource_ryguw")])
+metadata/_custom_type_script = "uid://bwtqcmltyt5yj"
+
+[resource]
+script = ExtResource("5_rqvk7")
+datas = Array[ExtResource("1_ou7ff")]([SubResource("Resource_y6ced"), SubResource("Resource_6pipo"), SubResource("Resource_7s7pe")])
+metadata/_custom_type_script = "uid://da8m32nmdf61p"

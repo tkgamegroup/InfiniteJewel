@@ -2,7 +2,14 @@ extends StatBlock
 
 class_name Pattern
 
+const type_name : StringName = &"Pattern"
+
+static var dummy : Pattern = Pattern.new()
+
 var coords : Array[Vector3i]
+
+func _init() -> void:
+	init_attributes({&"damage":1,&"crit_chance":0})
 
 func match_with(off : Vector2i):
 	var ret = []
@@ -24,4 +31,4 @@ func match_with(off : Vector2i):
 
 func setup(_coords : Array[Vector3i]):
 	coords = _coords
-	init_attributes({"Damage":1})
+	dummy.transfer_born_stats(self)

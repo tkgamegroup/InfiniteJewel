@@ -1,41 +1,58 @@
-extends RefCounted
+extends StatBlock
 
 class_name Item
 
+const type_name : StringName = &"Item"
+
 var res_id : int = -1
 var name : String
-var image_id : int
-var produce_ticks : int = 10
-var max_stack : int = 1
-var power : int
-var effect_range : int
+var category : StringName
 
 var coord : Vector2i
 var ticks : int
+var spells : Array[Spell]
+var channeling : Channeling = Channeling.new()
 
-var on_event : Callable
+func _init() -> void:
+	init_attributes({&"power":0,&"range":0})
 
-func setup(n : String):
-	name = n
-	if name == "Bomb":
-		res_id = 1
-		image_id = 6
-		produce_ticks = 300
-		max_stack = 3
-		power = 40
-		effect_range = 1
-		on_event = func(ev : String):
-			if ev == "tick":
-				ticks += 1
-				if ticks >= 30:
-					for c in G.offset_within(coord, effect_range):
-						if c != coord:
-							if G.is_valid_coord(c):
-								G.take_damage(c, power)
-					G.dead_cells[coord] = 1
-	elif name == "Flag":
-		res_id = 2
-		image_id = 7
-		produce_ticks = 300
-		max_stack = 3
-		effect_range = 2
+func get_data() -> ItemData:
+	if res_id == -1:
+		return null
+	return G.item_datas.datas[res_id]
+
+func is_aura():
+	for s in spells:
+		if s.is_aura:
+			return true
+	return false
+
+func setup(id : int):
+	assert(id != -1)
+	res_id = id
+	var d = get_data()
+	name = d.name
+	category = d.category
+	attributes[&"power"].base_value = d.power
+	attributes[&"range"].base_value = d.range
+	for n in d.spell_names:
+		var spell = G.spells.find_data(n)
+		assert(spell)
+		spells.append(spell)
+	d.dummy.transfer_born_stats(self)
+
+func setup_by_name(n : String):
+	setup(G.item_datas.find(n))
+
+func get_description(unused : int) -> String:
+	return G.format_description(get_data().description, self)
+
+func on_placed():
+	for s in spells:
+		if s.auto_cast:
+			if s.channel_duration != -1:
+				channeling.start(self, s)
+
+func step():
+	if channeling.spell:
+		channeling.step(self, 1)

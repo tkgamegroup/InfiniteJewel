@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://lvedrc62tume"]
+
+[node name="ErrorString" type="Label" unique_id=1129246806]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.95686275, 0.2627451, 0.21176471, 1)
+text = "abc"
+autowrap_mode = 3

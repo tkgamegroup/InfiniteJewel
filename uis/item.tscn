@@ -1,24 +1,21 @@
 [gd_scene format=3 uid="uid://bv5f3ccrychur"]
 
 [ext_resource type="Script" uid="uid://vluftr2u18h8" path="res://uis/item.gd" id="1_svxlk"]
-[ext_resource type="Texture2D" uid="uid://cvxbfnhq5if1d" path="res://images/item_dummy.png" id="2_nfwnx"]
 
-[node name="Item" type="Control" unique_id=1349391871 node_paths=PackedStringArray("button", "number")]
+[node name="Item" type="Panel" unique_id=588206830 node_paths=PackedStringArray("button", "number")]
+self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(36, 36)
-layout_mode = 3
-anchors_preset = 0
+offset_right = 36.0
+offset_bottom = 36.0
 script = ExtResource("1_svxlk")
 button = NodePath("TextureButton")
 number = NodePath("Label")
 
 [node name="TextureButton" type="TextureButton" parent="." unique_id=1511094803]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("2_nfwnx")
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 36.0
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="." unique_id=1675121205]
 visible = false
@@ -32,4 +29,6 @@ offset_left = -10.0
 offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
 text = "0"

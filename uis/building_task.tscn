@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cskvv7238ctk5"]
+
+[ext_resource type="Script" uid="uid://dnhi701mpoiqc" path="res://uis/building_task.gd" id="1_377ro"]
+[ext_resource type="PackedScene" uid="uid://bv5f3ccrychur" path="res://uis/item.tscn" id="2_h2ydt"]
+
+[node name="Task" type="HBoxContainer" unique_id=1467380989 node_paths=PackedStringArray("item_ui", "progress_bar", "cancel_button")]
+script = ExtResource("1_377ro")
+item_ui = NodePath("Item")
+progress_bar = NodePath("ProgressBar")
+cancel_button = NodePath("Button")
+
+[node name="Item" parent="." unique_id=588206830 instance=ExtResource("2_h2ydt")]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1651349242]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="." unique_id=722158177]
+layout_mode = 2
+text = "X"

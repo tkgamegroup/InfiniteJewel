@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dfous5jr3f2mn"]
+
+[ext_resource type="Texture2D" uid="uid://bjxg7r1ahhnhj" path="res://images/wave.png" id="1_1dlie"]
+
+[node name="Lightning" type="Line2D" unique_id=924600940]
+texture_repeat = 2
+width = 4.0
+default_color = Color(0, 0.63529414, 0.96862745, 1)
+texture = ExtResource("1_1dlie")
+texture_mode = 1

@@ -1,0 +1,127 @@
+[gd_resource type="Resource" script_class="TalentTree" format=3 uid="uid://cuec3l8g0e5k6"]
+
+[ext_resource type="Script" uid="uid://dd4do0lmqm6bu" path="res://resources/talent_tree.gd" id="1_w43cn"]
+[ext_resource type="Script" uid="uid://dg6npybf7hsgn" path="res://resources/talent.gd" id="2_p5d6p"]
+
+[sub_resource type="Resource" id="Resource_dg77c"]
+script = ExtResource("2_p5d6p")
+row = null
+column = 1
+name = "Sharpen"
+max_lv = 5
+costs = Array[int]([20, 100, 600, 5000, 50000])
+dependency = null
+spell_name = "talent_sharpen"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_4mjps"]
+script = ExtResource("2_p5d6p")
+row = null
+column = 3
+name = "Gem Polishing"
+max_lv = 5
+costs = Array[int]([20, 100, 600, 5000, 50000])
+dependency = null
+spell_name = "talent_gem_polishing"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_ryguw"]
+script = ExtResource("2_p5d6p")
+row = 1
+name = "Critical Strike"
+max_lv = 5
+costs = Array[int]([500, 2500, 15000, 120000, 1200000])
+spell_name = "talent_critical_strike"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_074og"]
+script = ExtResource("2_p5d6p")
+row = 1
+column = 2
+name = "Cave"
+description = "Displays caves, where you can place items on them."
+max_lv = null
+costs = Array[int]([100])
+dependency = null
+spell_name = "talent_cave"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_w48qg"]
+script = ExtResource("2_p5d6p")
+row = 2
+name = "Workshop"
+description = "Unlock workshop."
+max_lv = null
+costs = Array[int]([100])
+dependency = "Cave"
+spell_name = "talent_workshop"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_l7wcb"]
+script = ExtResource("2_p5d6p")
+row = 2
+column = 1
+name = "Advanced Crafting"
+max_lv = 5
+costs = Array[int]([0, 0, 0, 0, 0])
+dependency = "Workshop"
+spell_name = "talent_advanced_crafting"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_ucfgc"]
+script = ExtResource("2_p5d6p")
+row = 2
+column = 3
+name = "Tailor Shop"
+description = "Unlock tailor shop."
+max_lv = null
+costs = null
+dependency = "Cave"
+spell_name = "talent_tailor_shop"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_t5e6d"]
+script = ExtResource("2_p5d6p")
+row = 2
+column = 4
+name = "Vibrant Dyes"
+max_lv = 2
+costs = Array[int]([0, 0])
+dependency = "Tailor Shop"
+spell_name = "talent_vibrant_dyes"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_iqo7s"]
+script = ExtResource("2_p5d6p")
+row = 3
+column = 1
+name = "Rapid Production"
+max_lv = 5
+costs = Array[int]([0, 0, 0, 0, 0])
+spell_name = "talent_rapid_production"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_mxwlr"]
+script = ExtResource("2_p5d6p")
+row = 3
+column = 2
+name = "Foundational Research"
+max_lv = 5
+costs = Array[int]([0, 0, 0, 0, 0])
+spell_name = "talent_foundational_research"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[sub_resource type="Resource" id="Resource_d5ip6"]
+script = ExtResource("2_p5d6p")
+row = 3
+column = 3
+name = "Bonus Product"
+max_lv = 2
+costs = Array[int]([0, 0])
+spell_name = "talent_bonus_product"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
+[resource]
+script = ExtResource("1_w43cn")
+tree = Array[ExtResource("2_p5d6p")]([SubResource("Resource_dg77c"), SubResource("Resource_4mjps"), SubResource("Resource_ryguw"), SubResource("Resource_074og"), SubResource("Resource_w48qg"), SubResource("Resource_l7wcb"), SubResource("Resource_ucfgc"), SubResource("Resource_t5e6d"), SubResource("Resource_iqo7s"), SubResource("Resource_mxwlr"), SubResource("Resource_d5ip6")])
+metadata/_custom_type_script = "uid://dd4do0lmqm6bu"

@@ -28,8 +28,10 @@ func random_pattern():
 					if cc.x >= 0 && cc.x < 4 && cc.y >= 0 && cc.y < 4:
 						cands.append(cc)
 		cs.append(cands[randi_range(0, cands.size() - 1)])
+	var coords : Array[Vector3i]
 	for c in cs:
-		p.coords.append(G.offset_to_cube(c))
+		coords.append(G.offset_to_cube(c))
+	p.setup(coords)
 	return p
 
 func refresh_prices():

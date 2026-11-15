@@ -14,24 +14,28 @@ const board_width : int = 64
 var board_upper : int = 0
 var board_lower : int = 1000
 var cells : Dictionary[Vector2i, Cell]
+var caves : Dictionary[Vector2i, int]
+var caves_locked : bool = true
 var patterns : Array[Pattern]
 var watch_size : int = 4
 var money : int = 0
+var spells : Spells
 var talent_tree : TalentTree
+var technologies : Technologies
+var item_datas : ItemDatas
+var building_datas : BuildingDatas
 var warehouse_enable : bool = false
-var warehouse_max_slots : int = 16
 ## Array of Items
 var warehouse_items : Array[Array]
-var factory : Factory = Factory.new()
-var tailor_shop : TailorShop = TailorShop.new()
-var buildings : Array[Building] = [factory, tailor_shop]
-var debug_click_clear_enable : bool = false
-var debug_click_clear_range : int = 0
-var debug_click_spawn_enable : bool = false
-var debug_click_spawn_name : String = ""
+var workshop : Building = Building.new()
+var tailor_shop : Building = Building.new()
+var buildings : Array[Building] = [workshop, tailor_shop]
+
+var selecting_item : int = -1
 
 var stats : StatBlock = StatBlock.new()
 
+var watch_offset : int = 0
 var watch_start : Vector2i
 var watch_end : Vector2i
 var holes : Dictionary[Vector2i, int]
@@ -39,21 +43,27 @@ var dead_cells : Dictionary[Vector2i, int]
 var board_items : Array[Item]
 
 @onready var canvas : CanvasLayer = $/root/Main/CanvasLayer
+@onready var vfx : UiVisualEffects = $/root/Main/%VFX
 @onready var board_ui : UiBoard = $/root/Main/%Board
-@onready var money_txt : Label = $/root/Main/CanvasLayer/HBoxContainer/VBoxContainer/Label
+@onready var block_ui : Control = $/root/Main/%Block
+@onready var block_txt : Label = $/root/Main/%Block/PanelContainer/Label
+@onready var money_txt : Label = $/root/Main/%Money
 @onready var patterns_ui : UiPatterns = $/root/Main/%Patterns
 @onready var warehouse_ui : UiWarehouse = $/root/Main/%Warehouse
-@onready var factory_ui : UiBuilding = $/root/Main/%Factory
+@onready var workshop_ui : UiBuilding = $/root/Main/%Workshop
 @onready var tailor_ui : UiBuilding = $/root/Main/%TailorShop
+@onready var talent_tree_ui : UiTalentTree = $/root/Main/%TalentTree
+@onready var debug_ui : UiDebug = $/root/Main/%Debug
 @onready var hover_ui : UiHover = $/root/Main/%Hover
+@onready var errors_ui : Control = $/root/Main/%Errors
 @onready var step_timer : Timer = $/root/Main/StepTimer
 @onready var refresh_timer : Timer = $/root/Main/RefreshTimer
 @onready var board_size_timer : Timer = $/root/Main/BoardSizeTimer
-@onready var debug_click_clear_check : CheckBox = $/root/Main/CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer/CheckBox
-@onready var debug_click_clear_range_spin : SpinBox = $/root/Main/CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer/SpinBox
-@onready var debug_click_spawn_check : CheckBox = $/root/Main/CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2/CheckBox
-@onready var debug_click_spawn_option : OptionButton = $/root/Main/CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2/OptionButton
 @onready var hover_timer : Timer = $/root/Main/HoverTimer
+
+const spell_frames = preload("res://images/spell.tres")
+const item_pb = preload("res://uis/item.tscn")
+const error_string_pb = preload("res://uis/error_string.tscn")
 
 func cube_to_offset(c : Vector3i) -> Vector2i:
 	var col = c.x
@@ -124,8 +134,58 @@ func offset_within(c : Vector2i, r : int) -> Array[Vector2i]:
 func is_valid_coord(c : Vector2i):
 	return c.x >= 0 && c.x < board_width && c.y >= board_upper && c.y < board_lower
 
-func update_attributes(obj):
-	obj.reset_attributes()
+func get_board_page_range():
+	var pct = board_ui.get_page_pct()
+	var from_y = max(int(lerp(board_upper, board_lower, pct[0])) - 1, board_upper)
+	var to_y = min(int(lerp(board_upper, board_lower, pct[1])), board_lower - 1)
+	return [from_y, to_y]
+
+func get_res_id(type_name : StringName, name : String):
+	match type_name:
+		&"Item": return item_datas.find(name)
+		&"Spell": return spells.find(name)
+		&"Talent": return talent_tree.find(name)
+		&"Tech": return technologies.find(name)
+	return -1
+
+func get_res_data(type_name : StringName, id : int):
+	match type_name:
+		&"Item": return item_datas.datas[id].dummy
+		&"Spell": return spells.datas[id]
+		&"Talent": return talent_tree.tree[id]
+		&"Tech": return technologies.datas[id]
+	return null
+
+func format_description(desc : String, obj, lv : int = 0):
+	var ret = ""
+	var placeholder = ""
+	for c in desc:
+		if c == "%":
+			placeholder += "%"
+			if placeholder.length() > 1 && placeholder.right(1) == "%":
+				if placeholder.length() == 2:
+					ret += "%"
+				else:
+					var name = placeholder.substr(1, placeholder.length() - 2)
+					if name.begins_with("m:"):
+						var idx = int(name.substr(2))
+						var m = obj.modifiers[idx]
+						ret += str(m.base_value + m.value_per_lv * lv)
+					else:
+						ret += str(obj.get_attr(name))
+				placeholder = ""
+		else:
+			if placeholder.is_empty():
+				ret += c
+			else:
+				placeholder += c
+	return ret
+
+func get_ui_pos(obj):
+	match obj.type_name:
+		&"Building":
+			return obj.ui.get_global_rect().get_center()
+	return Vector2(0.0, 0.0)
 
 func set_money(v : int):
 	money = v
@@ -141,13 +201,33 @@ func enable_warehouse():
 	warehouse_enable = true
 	warehouse_ui.show()
 
-func add_damage_number(coord : Vector2i, value : int):
-	var pos = board_ui.tilemap.map_to_local(coord) + board_ui.tilemap.position
+func get_position(coords : Array, is_global : bool = false) -> Vector2:
+	var ret = Vector2(0, 0)
+	for c in coords:
+		ret += board_ui.tilemap.map_to_local(c)
+	if coords.size() > 1:
+		ret /= coords.size()
+	if is_global:
+		ret += board_ui.tilemap.global_position
+	else:
+		ret += board_ui.tilemap.position
+	return ret
+
+func block_controls(text : String):
+	block_ui.show()
+	block_txt.text = text
+
+func unblock_controls():
+	block_ui.hide()
+	block_txt.text = ""
+
+func add_damage_number(coord : Vector2i, value : int, is_crit : bool):
+	var pos = get_position([coord])
 	var y_range = board_ui.get_page_pct() * board_ui.content.size.y
 	if pos.y + 100.0 < y_range[0] || pos.y - 100.0 > y_range[1]:
 		return
 	var txt = Label.new()
-	txt.text = "%d" % value
+	txt.text = ("%d" % value) + ("!" if is_crit else "")
 	txt.position = pos
 	txt.reset_size()
 	txt.position -= txt.size * 0.5
@@ -156,11 +236,35 @@ func add_damage_number(coord : Vector2i, value : int):
 	tween.tween_property(txt, "modulate:a", 0.0, 0.15).set_delay(0.2)
 	tween.tween_callback(txt.queue_free)
 
-func take_damage(c : Vector2i, value : int):
+func add_combo_text(coords : Array):
+	var pos = get_position(coords)
+	var txt = Label.new()
+	txt.text = "Combo"
+	txt.reset_size()
+	pos -= txt.size * 0.5
+	txt.position = pos
+	board_ui.content.add_child(txt)
+	var tween = create_tween()
+	tween.tween_property(txt, "position", pos - Vector2(0.0, 40.0), 0.2)
+	tween.parallel().tween_property(txt, "modulate:a", 0.0, 0.15).set_delay(0.2)
+	tween.tween_callback(txt.queue_free)
+
+func add_error_string(text : String):
+	var lb = error_string_pb.instantiate()
+	lb.text = text
+	errors_ui.add_child(lb)
+	var tween = create_tween()
+	tween.tween_interval(1.0)
+	tween.tween_property(lb, "modulate:a", 0.0, 1.5)
+	tween.tween_callback(lb.queue_free)
+
+func take_damage(c : Vector2i, value : int, is_crit : bool):
 	var g = cells[c].gem
 	if g:
+		if is_crit:
+			value *= 2
 		g.durability -= value
-		add_damage_number(c, value)
+		add_damage_number(c, value, is_crit)
 		if g.durability <= 0:
 			destroy_cell(c)
 
@@ -170,7 +274,7 @@ func destroy_cell(c : Vector2i):
 	var g = cells[c].gem
 	if !g:
 		return
-	var value = g.value
+	var value = g.get_attr(&"value")
 	var sp = ColorRect.new()
 	sp.color = Color.GOLD
 	sp.size = Vector2(5, 5)
@@ -185,28 +289,57 @@ func destroy_cell(c : Vector2i):
 	tween.tween_callback(sp.queue_free)
 	dead_cells[c] = 1
 
-func warehouse_available_slot(n : String):
+func warehouse_available_slot(res_id : int):
 	for i in warehouse_items.size():
 		var arr = warehouse_items[i]
-		if arr[0].name == n && arr.size() < arr[0].max_stack:
-			return i
-	if warehouse_items.size() < warehouse_max_slots:
-		return warehouse_items.size()
-	return -1
+		if arr[0].res_id == res_id:
+			if arr.size() < arr[0].get_data().max_stack:
+				return i
+			return -1
+	return warehouse_items.size()
 
-func warehouse_add_item(i : Item, idx : int = -1):
-	if idx == -1:
-		idx = warehouse_available_slot(i.name)
-	if idx == -1:
+func warehouse_add_item(i : Item, slot : int = -1):
+	if slot == -1:
+		slot = warehouse_available_slot(i.res_id)
+	if slot == -1:
 		return
-	if idx == warehouse_items.size():
-		warehouse_items.append([i])
-		warehouse_items.sort_custom(func(a, b):
+	if slot == warehouse_items.size():
+		slot = warehouse_items.bsearch_custom([i], func(a, b):
 			return a[0].res_id < b[0].res_id
 		)
+		warehouse_items.insert(slot, [i])
+		warehouse_ui.insert(slot)
 	else:
-		warehouse_items[idx].append(i)
-	warehouse_ui.update()
+		warehouse_items[slot].append(i)
+		warehouse_ui.flash(slot)
+
+func warehouse_get_item(slot : int):
+	var is_empty = false
+	var arr = warehouse_items[slot]
+	var i = arr.pop_back() as Item
+	if arr.is_empty():
+		warehouse_items.remove_at(slot)
+		is_empty = true
+	if is_empty:
+		warehouse_ui.remove(slot)
+	else:
+		warehouse_ui.flash(slot)
+	return [i, is_empty]
+
+func place_item(warehouse_slot : int, c : Vector2i):
+	if warehouse_items.size() <= warehouse_slot:
+		return -1
+	var ret = warehouse_get_item(warehouse_slot)
+	var i = ret[0]
+	var cell = cells[c]
+	if cell.is_empty():
+		cell.item = i
+		i.coord = c
+		i.on_placed()
+		if i.is_aura():
+			aura_entered(i)
+		board_items.append(i)
+	return ret[1]
 
 func random_place_from_top():
 	var cands = []
@@ -225,25 +358,39 @@ func random_place_from_top():
 		return c
 	return Vector2i(-1, -1)
 
-func place_item(warehouse_slot : int, c : Vector2i):
-	if warehouse_items.size() <= warehouse_slot:
-		return
-	var arr = warehouse_items[warehouse_slot]
-	var i = arr.pop_back() as Item
-	if arr.is_empty():
-		warehouse_items.remove_at(warehouse_slot)
-	warehouse_ui.update()
-	var cell = cells[c]
-	if cell.is_empty():
-		cell.item = i
-		i.coord = c
-		board_items.append(i)
+func aura_entered(i : Item):
+	var targets = []
+	for c in offset_within(i.coord, i.get_attr(&"range")):
+		if is_valid_coord(c):
+			var cell = cells[c]
+			cell.auras.append(i.coord)
+			if cell.gem:
+				targets.append(cell.gem)
+			if cell.item:
+				targets.append(cell.item)
+	for s in i.spells:
+		if s.is_aura:
+			s.apply(targets, 0)
+
+func aura_left(i : Item):
+	var targets = []
+	for c in offset_within(i.coord, i.get_attr(&"range")):
+		if is_valid_coord(c):
+			var cell = cells[c]
+			cell.auras.erase(i.coord)
+			if cell.gem:
+				targets.append(cell.gem)
+			if cell.item:
+				targets.append(cell.item)
+	for s in i.spells:
+		if s.is_aura:
+			s.revert(targets)
 
 var damage_ticks : int = 0
 
 func step():
 	var watch_page = board_ui.get_page_pct()
-	watch_start = Vector2i(0, max(int(round(lerp(board_upper, board_lower, watch_page[0]))), board_upper))
+	watch_start = Vector2i(0, watch_offset + max(int(round(lerp(board_upper, board_lower, watch_page[0]))), board_upper))
 	watch_end = Vector2i(G.board_width, watch_start.y + watch_size)
 	board_ui.content.queue_redraw()
 	
@@ -255,73 +402,110 @@ func step():
 					var res = p.match_with(off)
 					if !res.is_empty():
 						for c in res:
-							take_damage(c, p.get_attr(&"Damage") * 1)
+							var damage = p.get_attr(&"damage") * 1
+							var crit = randf() < p.get_attr(&"crit_chance") * 0.01
+							take_damage(c, damage, crit)
 		damage_ticks = 0
 	damage_ticks += 1
 	
 	for b in buildings:
-		if b.is_enable:
-			if !b.producing.is_empty():
-				if b.producing[1] >= b.producing[2]:
-					var slot = warehouse_available_slot(b.producing[0])
-					if slot != -1:
-						var i = Item.new()
-						i.setup(b.producing[0])
-						warehouse_add_item(i, slot)
-						b.producing[1] = 0
-				else:
-					b.producing[1] += 1 * 10
+		b.step()
 	
 	for i in board_items:
-		if !i.on_event.is_null():
-			i.on_event.call("tick")
+		i.step()
 	
 	for c in dead_cells.keys():
-		holes[c] = 1
+		if !caves.has(c):
+			holes[c] = 1
 		var cell = cells[c]
 		cell.gem = null
 		if cell.item:
 			board_items.erase(cell.item)
+			if cell.item.aura_effect:
+				aura_left(cell.item)
 		cell.item = null
 	dead_cells.clear()
 	
 	var new_holes : Dictionary[Vector2i, int] = {}
+	var new_poses : Dictionary[Vector2i, Vector2i] = {}
 	var current_holes = holes.keys()
 	current_holes.sort_custom(func(a: Vector2i, b: Vector2i): return a.y < b.y)
 	for c in current_holes:
 		var c_up = Vector2i(c.x, c.y - 1)
+		if caves.has(c_up):
+			c_up.y -= 1
 		if is_valid_coord(c_up):
 			var cell_up = cells[c_up]
 			var cell = cells[c]
 			if !cell_up.is_empty():
 				var g = cell_up.gem
 				var i = cell_up.item
-				cell.gem = g
-				cell.item = i
+				if !cell_up.auras.is_empty() && (g || i):
+					for ac in cell_up.auras:
+						var a = cells[ac].item
+						for m in a.aura_effect.mods:
+							if g:
+								m.revert(a, [g])
+							if i:
+								m.revert(a, [i])
+				if i && i.is_aura():
+					aura_left(i)
 				cell_up.gem = null
 				cell_up.item = null
-				new_holes[c_up] = 1
+				cell.gem = g
+				cell.item = i
 				if i:
 					i.coord = c
+				if !cell.auras.is_empty() && (g || i):
+					for ac in cell_up.auras:
+						var a = cells[ac].item
+						for m in a.aura_effect.mods:
+							if g:
+								m.apply(a, [g])
+							if i:
+								m.apply(a, [i])
+				if i && i.is_aura():
+					aura_entered(i)
+				new_holes[c_up] = 1
+				for x in range(-3, 4):
+					for y in range(-3, 4):
+						new_poses[c + Vector2i(x, y)] = c
 	holes = new_holes
+	
+	for off in new_poses.keys():
+		for p in patterns:
+			var res = p.match_with(off)
+			if res.has(new_poses[off]):
+				for c in res:
+					add_combo_text(res)
+					destroy_cell(c)
+
+func refresh_cell(c : Vector2i):
+	var img_id = -1
+	var cell = cells[c]
+	if !cell.is_empty():
+		var g = cell.gem
+		var i = cell.item
+		if g:
+			img_id = g.color
+		else:
+			img_id = i.get_data().image_id
+			if caves.has(c):
+				img_id += 1
+	else:
+		if caves.has(c):
+			if caves_locked:
+				img_id = 6
+			else:
+				img_id = 7
+	board_ui.tilemap.set_cell(c, img_id, Vector2i(0, 0))
 
 func refresh_board():
-	var pct = board_ui.get_page_pct()
-	var from_y = max(int(lerp(board_upper, board_lower, pct[0])) - 1, board_upper)
-	var to_y = min(int(lerp(board_upper, board_lower, pct[1])) + 1, board_lower - 1)
-	for y in range(from_y, to_y):
+	var page_range = get_board_page_range()
+	for y in range(page_range[0], page_range[1]):
 		for x in board_width:
 			var c = Vector2i(x, y)
-			var cell = cells[c]
-			if cell.is_empty():
-				board_ui.tilemap.set_cell(c, -1)
-			else:
-				var g = cell.gem
-				var i = cell.item
-				if g:
-					board_ui.tilemap.set_cell(c, g.color, Vector2i(0, 0))
-				else:
-					board_ui.tilemap.set_cell(c, i.image_id, Vector2i(0, 0))
+			refresh_cell(c)
 
 func board_size_changed():
 	board_ui.update_control()
@@ -354,15 +538,41 @@ func update_hover():
 	var coord = board_ui.tilemap.local_to_map(mouse_pos)
 	hover_ui.update_hover(coord)
 
+func select_item(idx : int):
+	selecting_item = idx
+	block_controls("Cancel")
+	var arr = warehouse_items[idx]
+	var item_data = item_datas.datas[arr[0].res_id]
+	var tex = board_ui.get_tile_texture(item_data.image_id)
+	Input.set_custom_mouse_cursor(tex, Input.CURSOR_ARROW, Vector2(8.0, 8.0))
+
+func cancel_selct_item():
+	selecting_item = -1
+	Input.set_custom_mouse_cursor(null)
+	unblock_controls()
+
 func _ready() -> void:
+	spells = load("uid://drfsf7frpauo8")
 	talent_tree = load("uid://cuec3l8g0e5k6")
+	talent_tree.setup()
+	item_datas = load("uid://b1xiow740xxr2")
+	item_datas.setup()
+	technologies = load("uid://bgwgytx16cvsx")
+	technologies.setup()
+	building_datas = load("uid://b2d7rxm5u6rna")
+	building_datas.setup()
 	
-	stats.init_attributes({&"FactoryEnable":0,&"TailorShopEnable":0})
-	stats.attributes[&"FactoryEnable"].callbacks.append(func(v : int):
+	stats.init_attributes({&"caves_unlocked":0,&"workshop_enable":0,&"tailor_shop_enable":0})
+	stats.attributes[&"caves_unlocked"].callbacks.append(func(v : int):
 		if v == 1:
-			factory.enable()
+			if caves_locked:
+				caves_locked = false
 	)
-	stats.attributes[&"TailorShopEnable"].callbacks.append(func(v : int):
+	stats.attributes[&"workshop_enable"].callbacks.append(func(v : int):
+		if v == 1:
+			workshop.enable()
+	)
+	stats.attributes[&"tailor_shop_enable"].callbacks.append(func(v : int):
 		if v == 1:
 			tailor_shop.enable()
 	)
@@ -380,16 +590,32 @@ func _ready() -> void:
 	for y in range(board_upper, board_lower):
 		for x in board_width:
 			var c = Vector2i(x, y)
-			var g = Gem.new()
-			g.color = Colors.Red + randi() % 5
-			g.max_durability = 1 + y
-			g.durability = g.max_durability
-			g.value = 1 + int(y / 64)
 			var cell = Cell.new()
-			cell.gem = g
 			cells[c] = cell
-			board_ui.tilemap.set_cell(c, g.color, Vector2i(0, 0))
+			var is_cave = false
+			if randi() % 100 < 3:
+				is_cave = true
+				for cc in offset_adjacents(c):
+					if caves.has(cc):
+						is_cave = false
+						break
+			var color = 0
+			if !is_cave:
+				var g = Gem.new()
+				color = Colors.Red + randi() % 5
+				g.setup(color, 1 + y, 1 + int(y / 256))
+				cell.gem = g
+			else:
+				caves[c] = 1
+			refresh_cell(c)
 	board_size_changed()
+	
+	block_ui.gui_input.connect(func(event: InputEvent):
+		if selecting_item != -1:
+			if event is InputEventMouseButton:
+				if event.button_index == MOUSE_BUTTON_LEFT && event.pressed:
+					cancel_selct_item()
+	)
 	
 	board_ui.content.mouse_entered.connect(func():
 		hover_timer.start()
@@ -399,45 +625,54 @@ func _ready() -> void:
 		hover_ui.txt.text = ""
 	)
 	board_ui.content.gui_input.connect(func(event: InputEvent):
-		if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT && event.pressed:
-				var coord = board_ui.tilemap.local_to_map(event.position)
-				if debug_click_clear_enable:
-					for c in offset_within(coord, debug_click_clear_range):
-						if is_valid_coord(c):
-							destroy_cell(c)
-				if debug_click_spawn_enable:
-					var cell = cells[coord]
-					if cell.gem:
-						cell.gem = null
-					if cell.item:
-						cell.item = null
-					var i = Item.new()
-					i.setup(debug_click_spawn_name)
-					cell.item = i
-					i.coord = coord
-					board_items.append(i)
+		if selecting_item != -1:
+			if event is InputEventMouseButton:
+				if event.button_index == MOUSE_BUTTON_LEFT && event.pressed:
+					if !caves_locked:
+						var coord = board_ui.tilemap.local_to_map(event.position)
+						var ok = false
+						if caves.has(coord):
+							if cells[coord].is_empty():
+								ok = true
+						else:
+							var dist = 10000.0
+							for c in offset_adjacents(coord):
+								if caves.has(c):
+									var d = board_ui.tilemap.map_to_local(c).distance_to(event.position)
+									if d < dist:
+										dist = d
+										coord = c
+										ok = true
+						if ok:
+							if place_item(selecting_item, coord):
+								cancel_selct_item()
+		else:
+			if event is InputEventMouseButton:
+				if event.button_index == MOUSE_BUTTON_LEFT && event.pressed:
+					var coord = board_ui.tilemap.local_to_map(event.position)
+					if debug_ui.click_clear_enable:
+						for c in offset_within(coord, debug_ui.click_clear_range):
+							if is_valid_coord(c):
+								destroy_cell(c)
+					if debug_ui.click_spawn_enable:
+						var cell = cells[coord]
+						if cell.gem:
+							cell.gem = null
+						if cell.item:
+							cell.item = null
+						var i = Item.new()
+						i.setup(debug_ui.click_spawn_id)
+						cell.item = i
+						i.coord = coord
+						board_items.append(i)
 	)
 	
-	factory_ui.building = factory
-	factory.ui = factory_ui
+	workshop_ui.building = workshop
+	workshop.ui = workshop_ui
+	workshop.setup(building_datas.find("Workshop"))
 	tailor_ui.building = tailor_shop
 	tailor_shop.ui = tailor_ui
-	
-	debug_click_clear_check.toggled.connect(func(v : bool):
-		debug_click_clear_enable = v
-	)
-	debug_click_clear_range_spin.value_changed.connect(func(v : float):
-		debug_click_clear_range = int(v)
-	)
-	debug_click_spawn_check.toggled.connect(func(v : bool):
-		debug_click_spawn_enable = v
-	)
-	debug_click_spawn_option.item_selected.connect(func(idx : int):
-		match idx:
-			0: debug_click_spawn_name = "Bomb"
-			1: debug_click_spawn_name = "Flag"
-	)
+	tailor_shop.setup(building_datas.find("Tailor Shop"))
 	
 	step_timer.timeout.connect(step)
 	refresh_timer.timeout.connect(refresh_board)

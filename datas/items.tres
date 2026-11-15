@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="ItemDatas" format=3 uid="uid://b1xiow740xxr2"]
+
+[ext_resource type="Script" uid="uid://p5pqbgmmm17u" path="res://resources/item_data.gd" id="1_feaku"]
+[ext_resource type="Script" uid="uid://dsal7s8mswwwi" path="res://resources/item_datas.gd" id="2_uo55a"]
+
+[sub_resource type="Resource" id="Resource_mnap0"]
+script = ExtResource("1_feaku")
+name = "Bomb"
+category = &"Bomb"
+image_id = 8
+description = "After 3 sec, explode and deals %power% damage to gems within a %range%-ring radius."
+max_stack = 3
+power = 40
+range = 1
+spell_names = Array[String](["item_bomb"])
+metadata/_custom_type_script = "uid://p5pqbgmmm17u"
+
+[sub_resource type="Resource" id="Resource_imjxq"]
+script = ExtResource("1_feaku")
+name = "Flag"
+image_id = 10
+max_stack = 3
+range = 16
+spell_names = Array[String](["item_flag"])
+metadata/_custom_type_script = "uid://p5pqbgmmm17u"
+
+[sub_resource type="Resource" id="Resource_eupy7"]
+script = ExtResource("1_feaku")
+name = "C4"
+category = &"Bomb"
+image_id = 8
+metadata/_custom_type_script = "uid://p5pqbgmmm17u"
+
+[resource]
+script = ExtResource("2_uo55a")
+datas = Array[ExtResource("1_feaku")]([SubResource("Resource_mnap0"), SubResource("Resource_imjxq"), SubResource("Resource_eupy7")])
+metadata/_custom_type_script = "uid://dsal7s8mswwwi"

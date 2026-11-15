@@ -2,9 +2,11 @@ extends Control
 
 @export var tilemap : TileMapLayer
 
+var pattern : Pattern
 var coords : Array[Vector3i]
 
 func setup(p : Pattern):
+	pattern = p
 	coords = p.coords.duplicate(true)
 	var y_min = 4
 	var y_max = 0
@@ -20,3 +22,10 @@ func _ready() -> void:
 	for c in coords:
 		var cc = G.cube_to_offset(c)
 		tilemap.set_cell(cc, 1, Vector2i(0, 0))
+	self.mouse_entered.connect(func():
+		var text = "Damage: %d" % pattern.get_attr(&"damage")
+		G.hover_ui.txt.text = text
+	)
+	self.mouse_exited.connect(func():
+		G.hover_ui.txt.text = ""
+	)

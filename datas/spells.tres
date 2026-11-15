@@ -1,0 +1,248 @@
+[gd_resource type="Resource" script_class="Spells" format=3 uid="uid://drfsf7frpauo8"]
+
+[ext_resource type="Script" uid="uid://bm8qwwoeplv6j" path="res://resources/spell.gd" id="1_xoirc"]
+[ext_resource type="Script" uid="uid://ba274vrxl3bpg" path="res://effects/effect.gd" id="2_kq38u"]
+[ext_resource type="Script" uid="uid://cxoxr2w7axopj" path="res://resources/modifier_target.gd" id="2_q6ku2"]
+[ext_resource type="Script" uid="uid://cvlrgl88kcv0c" path="res://resources/spells.gd" id="3_q6ku2"]
+[ext_resource type="Script" uid="uid://qmrd310w5tt6" path="res://effects/ef_explode.gd" id="4_m8q5l"]
+[ext_resource type="Script" uid="uid://bkqvwy621gp6k" path="res://effects/ef_destroy_self.gd" id="5_mxwlr"]
+[ext_resource type="Script" uid="uid://c83ibtub8imri" path="res://effects/ef_chain_lightning.gd" id="6_mxwlr"]
+
+[sub_resource type="Resource" id="Resource_ryguw"]
+script = ExtResource("1_xoirc")
+name = "upgrade"
+image_id = 3
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_u4ypt"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllPatterns"
+target_attribute = &"damage"
+value_per_lv = 1
+priority = 900
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_cwuoo"]
+script = ExtResource("1_xoirc")
+name = "talent_sharpen"
+image_id = 1
+description = "Increase patterns' damage by %m:0%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_u4ypt")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_qvgdr"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllGems"
+target_attribute = &"value"
+value_per_lv = 1
+priority = 900
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_1vrd4"]
+script = ExtResource("1_xoirc")
+name = "talent_gem_polishing"
+image_id = 1
+description = "Increase gems' value by %m:0%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_qvgdr")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_d5ip6"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllPatterns"
+target_attribute = &"crit_chance"
+value_per_lv = 4
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_t5e6d"]
+script = ExtResource("1_xoirc")
+name = "talent_critical_strike"
+image_id = 1
+description = "Increase patterns' crit chance by %m:0%%%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_d5ip6")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_3qjip"]
+script = ExtResource("2_q6ku2")
+target_type = &"Game"
+target_attribute = &"caves_unlocked"
+type = 2
+value_per_lv = 1
+priority = 900
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_07hmj"]
+script = ExtResource("1_xoirc")
+name = "talent_cave"
+image_id = 1
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_3qjip")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_dpejk"]
+script = ExtResource("2_q6ku2")
+target_type = &"Game"
+target_attribute = &"workshop_enable"
+type = 2
+value_per_lv = 1
+priority = 900
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_0oy2a"]
+script = ExtResource("1_xoirc")
+name = "talent_workshop"
+image_id = 1
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_dpejk")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_lvyl1"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllItems"
+target_attribute = &"power"
+value_per_lv = 5
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_mxwlr"]
+script = ExtResource("1_xoirc")
+name = "talent_advanced_crafting"
+image_id = 1
+description = "Increases the power of items produced by the Workshop by %m:0%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_lvyl1")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_qud5h"]
+script = ExtResource("2_q6ku2")
+target_type = &"Game"
+target_attribute = &"tailor_shop_enable"
+type = 2
+value_per_lv = 1
+priority = 900
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_qnd6r"]
+script = ExtResource("1_xoirc")
+name = "talent_tailor_shop"
+image_id = 1
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_qud5h")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_odqtw"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllItems"
+target_attribute = &"range"
+value_per_lv = 1
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_l7wcb"]
+script = ExtResource("1_xoirc")
+name = "talent_vibrant_dyes"
+image_id = 1
+description = "Increases the range of items produced by the Tailor Shop by %m:0%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_odqtw")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_377ro"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllItems"
+target_category = "Bomb"
+target_attribute = &"power"
+base_value = 8
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_getpj"]
+script = ExtResource("1_xoirc")
+name = "tech_explosive_refinement"
+image_id = 2
+description = "Increase Bombs's power by %m:0%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_377ro")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_iqo7s"]
+script = ExtResource("4_m8q5l")
+metadata/_custom_type_script = "uid://qmrd310w5tt6"
+
+[sub_resource type="Resource" id="Resource_bqnw6"]
+script = ExtResource("5_mxwlr")
+metadata/_custom_type_script = "uid://bkqvwy621gp6k"
+
+[sub_resource type="Resource" id="Resource_s68tw"]
+script = ExtResource("1_xoirc")
+name = "item_bomb"
+auto_cast = true
+channel_duration = 30
+channel_finished_effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_iqo7s"), SubResource("Resource_bqnw6")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_m8q5l"]
+script = ExtResource("2_q6ku2")
+target_type = &"Gem"
+target_attribute = &"value"
+base_value = 4
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_mlt36"]
+script = ExtResource("1_xoirc")
+name = "item_flag"
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_m8q5l")])
+is_aura = true
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_v0mup"]
+script = ExtResource("6_mxwlr")
+interval = 1
+max_times = 30
+metadata/_custom_type_script = "uid://c83ibtub8imri"
+
+[sub_resource type="Resource" id="Resource_eupy7"]
+script = ExtResource("1_xoirc")
+name = "chain_lightning"
+image_id = 1
+channel_duration = 35
+channel_tick_effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_v0mup")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_oogok"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllBuildings"
+target_attribute = &"production_time_decrease"
+value_per_lv = 4
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_27vps"]
+script = ExtResource("1_xoirc")
+name = "talent_rapid_production"
+image_id = 1
+description = "Decrease production time by %m:0%%%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_oogok")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_uwgh5"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllByildings"
+value_per_lv = 4
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_d13ii"]
+script = ExtResource("1_xoirc")
+name = "talent_foundational_research"
+image_id = 1
+description = "Decrease research time by %m:0%%%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_uwgh5")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_o36hd"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllBuildings"
+value_per_lv = 5
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_1u8w0"]
+script = ExtResource("1_xoirc")
+name = "talent_bonus_product"
+image_id = 1
+description = "Has a %m:0%%% chance to produce an additional item."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_o36hd")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[resource]
+script = ExtResource("3_q6ku2")
+datas = Array[ExtResource("1_xoirc")]([SubResource("Resource_ryguw"), SubResource("Resource_cwuoo"), SubResource("Resource_1vrd4"), SubResource("Resource_t5e6d"), SubResource("Resource_07hmj"), SubResource("Resource_0oy2a"), SubResource("Resource_mxwlr"), SubResource("Resource_qnd6r"), SubResource("Resource_l7wcb"), SubResource("Resource_getpj"), SubResource("Resource_s68tw"), SubResource("Resource_mlt36"), SubResource("Resource_eupy7"), SubResource("Resource_27vps"), SubResource("Resource_d13ii"), SubResource("Resource_1u8w0")])
+metadata/_custom_type_script = "uid://cvlrgl88kcv0c"

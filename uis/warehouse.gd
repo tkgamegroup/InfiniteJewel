@@ -4,22 +4,28 @@ class_name UiWarehouse
 
 @export var list : Control
 
-const item_pb = preload("res://uis/item.tscn")
+func insert(idx : int):
+	var arr = G.warehouse_items[idx]
+	var ui = G.item_pb.instantiate()
+	ui.setup(arr[0])
+	ui.set_pressed(func():
+		G.select_item(idx)
+	)
+	ui.number.show()
+	list.add_child(ui)
+	list.move_child(ui, idx)
+	flash(idx)
 
-func update():
-	for n in list.get_children():
-		n.queue_free()
-	for i in G.warehouse_items.size():
-		var arr = G.warehouse_items[i]
-		var ui = item_pb.instantiate()
-		ui.button.pressed.connect(func():
-			var coord = G.random_place_from_top()
-			if coord.x != -1 && coord.y != -1:
-				G.place_item(i, coord)
-		)
-		ui.number.show()
-		ui.number.text = "%d" % arr.size()
-		list.add_child(ui)
+func remove(idx : int):
+	list.get_child(idx).queue_free()
+
+func flash(idx : int):
+	var arr = G.warehouse_items[idx]
+	var ui = list.get_child(idx)
+	ui.number.text = "%d" % arr.size()
+	ui.number.scale = Vector2(1.2, 1.2)
+	var tween = G.create_tween()
+	tween.tween_property(ui.number, "scale", Vector2(1.0, 1.0), 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BOUNCE)
 
 func _ready() -> void:
 	pass

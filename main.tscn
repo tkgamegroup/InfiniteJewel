@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://bhckq4khjdqv1"]
 
 [ext_resource type="Script" uid="uid://duf2gyuk4ql0k" path="res://uis/board.gd" id="1_ig7tw"]
-[ext_resource type="Texture2D" uid="uid://e073vanpw5rk" path="res://images/empty.png" id="2_272bh"]
+[ext_resource type="Texture2D" uid="uid://e073vanpw5rk" path="res://images/empty16.png" id="2_272bh"]
 [ext_resource type="Script" uid="uid://coag0mhey108w" path="res://uis/board_content.gd" id="2_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://cqgd5d3xgw8mr" path="res://images/red.png" id="3_272bh"]
 [ext_resource type="Texture2D" uid="uid://bocp8b6atf1rc" path="res://images/yellow.png" id="4_5vw27"]
+[ext_resource type="Texture2D" uid="uid://b0nams77krnfv" path="res://images/flag_cave.png" id="5_074og"]
 [ext_resource type="Texture2D" uid="uid://1emgqiiu1kac" path="res://images/green.png" id="5_kek77"]
 [ext_resource type="Texture2D" uid="uid://c3tiadcajd1vi" path="res://images/blue.png" id="6_4c57u"]
 [ext_resource type="Texture2D" uid="uid://dwktawp1o8036" path="res://images/purple.png" id="7_efxa6"]
@@ -13,8 +14,14 @@
 [ext_resource type="Script" uid="uid://c02awn7mwfhkp" path="res://uis/patterns.gd" id="8_kek77"]
 [ext_resource type="Script" uid="uid://dvm2u82v7m7v0" path="res://uis/warehouse.gd" id="9_4c57u"]
 [ext_resource type="Texture2D" uid="uid://dgun2kqrxby0m" path="res://images/flag.png" id="10_vivmo"]
-[ext_resource type="Script" uid="uid://5dr1xo6hyp21" path="res://uis/talents.gd" id="11_dg77c"]
+[ext_resource type="Texture2D" uid="uid://uexlr0tcrg4r" path="res://images/cave.png" id="11_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://dymnkisa0tqps" path="res://images/unknown.png" id="11_cegan"]
+[ext_resource type="Script" uid="uid://5dr1xo6hyp21" path="res://uis/talent_tree.gd" id="11_dg77c"]
+[ext_resource type="Texture2D" uid="uid://7saw5dsmukvj" path="res://images/bomb_cave.png" id="12_cegan"]
 [ext_resource type="PackedScene" uid="uid://qipx32obyrgn" path="res://uis/building.tscn" id="12_w48qg"]
+[ext_resource type="Texture2D" uid="uid://7x1n7n5vo7cl" path="res://images/dragger.png" id="15_82xsv"]
+[ext_resource type="Script" uid="uid://dgcu1uiyd6oxd" path="res://uis/debug.gd" id="20_getpj"]
+[ext_resource type="Script" uid="uid://ctltj40cr4phx" path="res://uis/visual_effects.gd" id="22_ryguw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5vw27"]
 texture = ExtResource("2_272bh")
@@ -22,29 +29,50 @@ texture = ExtResource("2_272bh")
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dg77c"]
 texture = ExtResource("3_272bh")
 0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.9019608)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_074og"]
+texture = ExtResource("10_vivmo")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_82xsv"]
+texture = ExtResource("5_074og")
+0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ycdy4"]
 texture = ExtResource("4_5vw27")
 0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.9019608)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w48qg"]
 texture = ExtResource("5_kek77")
 0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.9019608)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vivmo"]
 texture = ExtResource("6_4c57u")
 0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.9019608)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2cqfq"]
 texture = ExtResource("7_efxa6")
+0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.9019608)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ryguw"]
+texture = ExtResource("11_cegan")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cegan"]
+texture = ExtResource("11_2cqfq")
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yaehf"]
 texture = ExtResource("8_efxa6")
 0:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_074og"]
-texture = ExtResource("10_vivmo")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_getpj"]
+texture = ExtResource("12_cegan")
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_0xm2m"]
@@ -56,8 +84,12 @@ sources/2 = SubResource("TileSetAtlasSource_ycdy4")
 sources/3 = SubResource("TileSetAtlasSource_w48qg")
 sources/4 = SubResource("TileSetAtlasSource_vivmo")
 sources/5 = SubResource("TileSetAtlasSource_2cqfq")
-sources/6 = SubResource("TileSetAtlasSource_yaehf")
-sources/7 = SubResource("TileSetAtlasSource_074og")
+sources/11 = SubResource("TileSetAtlasSource_82xsv")
+sources/10 = SubResource("TileSetAtlasSource_074og")
+sources/9 = SubResource("TileSetAtlasSource_getpj")
+sources/8 = SubResource("TileSetAtlasSource_yaehf")
+sources/7 = SubResource("TileSetAtlasSource_cegan")
+sources/6 = SubResource("TileSetAtlasSource_ryguw")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_riqys"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -72,14 +104,24 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=926533814]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1614153213]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1182688554]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control" unique_id=1614153213]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Board" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=619510278 node_paths=PackedStringArray("scroller", "tilemap", "content")]
+[node name="Board" type="Control" parent="CanvasLayer/Control/HBoxContainer" unique_id=619510278 node_paths=PackedStringArray("scroller", "tilemap", "content", "watch_dragger")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -87,8 +129,9 @@ script = ExtResource("1_ig7tw")
 scroller = NodePath("ScrollContainer")
 tilemap = NodePath("ScrollContainer/Content/TileMap")
 content = NodePath("ScrollContainer/Content")
+watch_dragger = NodePath("ScrollContainer/Content/WatchDragger")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/HBoxContainer/Board" unique_id=700748220]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/HBoxContainer/Board" unique_id=700748220]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -99,23 +142,46 @@ size_flags_horizontal = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="Content" type="Control" parent="CanvasLayer/HBoxContainer/Board/ScrollContainer" unique_id=1231251078]
+[node name="Content" type="Control" parent="CanvasLayer/Control/HBoxContainer/Board/ScrollContainer" unique_id=1231251078]
 layout_mode = 2
 script = ExtResource("2_ycdy4")
 
-[node name="TileMap" type="TileMapLayer" parent="CanvasLayer/HBoxContainer/Board/ScrollContainer/Content" unique_id=130055754]
+[node name="TileMap" type="TileMapLayer" parent="CanvasLayer/Control/HBoxContainer/Board/ScrollContainer/Content" unique_id=130055754]
 tile_set = SubResource("TileSet_0xm2m")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=1590163407]
+[node name="WatchDragger" type="TextureButton" parent="CanvasLayer/Control/HBoxContainer/Board/ScrollContainer/Content" unique_id=1327628301]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+texture_normal = ExtResource("15_82xsv")
+stretch_mode = 5
+
+[node name="Control" type="Control" parent="CanvasLayer/Control/HBoxContainer" unique_id=1832389217]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1868571629]
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/Control/HBoxContainer/Control" unique_id=35929609]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+tabs_position = 1
+
+[node name="Game" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer" unique_id=1590163407]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Money" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1868571629]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "0"
 
-[node name="Patterns" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1068804816 node_paths=PackedStringArray("list", "shop_button", "shop", "shop_list", "shop_refresh_button")]
+[node name="Patterns" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1068804816 node_paths=PackedStringArray("list", "shop_button", "shop", "shop_list", "shop_refresh_button")]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_riqys")
@@ -127,40 +193,40 @@ shop = NodePath("VBoxContainer/MarginContainer/Shop")
 shop_list = NodePath("VBoxContainer/MarginContainer/Shop/HBoxContainer")
 shop_refresh_button = NodePath("VBoxContainer/MarginContainer/Shop/RefreshButton")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns" unique_id=350805255]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns" unique_id=350805255]
 layout_mode = 2
 
-[node name="List" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer" unique_id=279225395]
+[node name="List" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer" unique_id=279225395]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="ShopButton" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer" unique_id=1952090656]
+[node name="ShopButton" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer" unique_id=1952090656]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Shop>>"
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer" unique_id=1667259228]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer" unique_id=1667259228]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Shop" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer/MarginContainer" unique_id=542330204]
+[node name="Shop" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer/MarginContainer" unique_id=542330204]
 visible = false
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=635449697]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=635449697]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 
-[node name="RefreshButton" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=566980404]
+[node name="RefreshButton" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=566980404]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Refresh"
 
-[node name="Warehouse" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=2136428860 node_paths=PackedStringArray("list")]
+[node name="Warehouse" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=2136428860 node_paths=PackedStringArray("list")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -169,85 +235,113 @@ title = "Warehouse"
 script = ExtResource("9_4c57u")
 list = NodePath("VBoxContainer/PanelContainer/GridContainer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Warehouse" unique_id=1690119567]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Warehouse" unique_id=1690119567]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Warehouse/VBoxContainer" unique_id=605488020]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Warehouse/VBoxContainer" unique_id=605488020]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4c57u")
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Warehouse/VBoxContainer/PanelContainer" unique_id=1710282559]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Warehouse/VBoxContainer/PanelContainer" unique_id=1710282559]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 columns = 8
 
-[node name="Factory" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1575978750 instance=ExtResource("12_w48qg")]
+[node name="Workshop" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1575978750 instance=ExtResource("12_w48qg")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 title = "Factory"
 
-[node name="TailorShop" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1396936368 instance=ExtResource("12_w48qg")]
+[node name="TailorShop" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1396936368 instance=ExtResource("12_w48qg")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 title = "TailorShop"
 
-[node name="Talents" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1901142948 node_paths=PackedStringArray("container")]
+[node name="TalentTree" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1901142948 node_paths=PackedStringArray("container", "dependencies_layer", "timer")]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kek77")
 title = "Talents"
 script = ExtResource("11_dg77c")
-container = NodePath("VBoxContainer/PanelContainer/GridContainer")
+container = NodePath("VBoxContainer/MarginContainer/PanelContainer/GridContainer")
+dependencies_layer = NodePath("VBoxContainer/MarginContainer/PanelContainer/Dependencies")
+timer = NodePath("Timer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents" unique_id=1204611643]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree" unique_id=1204611643]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents/VBoxContainer" unique_id=240023571]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer" unique_id=29858917]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer/MarginContainer" unique_id=240023571]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4c57u")
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents/VBoxContainer/PanelContainer" unique_id=464074446]
+[node name="Dependencies" type="Control" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer/MarginContainer/PanelContainer" unique_id=190614701]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/Talents/VBoxContainer" unique_id=1219730906]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer/MarginContainer/PanelContainer" unique_id=464074446]
 layout_mode = 2
-size_flags_horizontal = 0
-text = "Test"
+theme_override_constants/h_separation = 48
+theme_override_constants/v_separation = 24
 
-[node name="Debug" type="FoldableContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1994131737]
+[node name="Timer" type="Timer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree" unique_id=1648396179]
+wait_time = 0.1
+autostart = true
+
+[node name="Hover" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1425160865 node_paths=PackedStringArray("txt")]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("8_5vw27")
+txt = NodePath("Text")
+
+[node name="Text" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Hover" unique_id=860818878]
+layout_mode = 2
+
+[node name="System" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer" unique_id=269777062]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Debug" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System" unique_id=1994131737 node_paths=PackedStringArray("click_clear_check", "click_clear_range_spin", "click_spawn_check", "click_spawn_option", "fast_produce_check", "infinite_money_check")]
+unique_name_in_owner = true
 layout_mode = 2
 title = "Debug"
+script = ExtResource("20_getpj")
+click_clear_check = NodePath("VBoxContainer/HBoxContainer/CheckBox")
+click_clear_range_spin = NodePath("VBoxContainer/HBoxContainer/SpinBox")
+click_spawn_check = NodePath("VBoxContainer/HBoxContainer2/CheckBox")
+click_spawn_option = NodePath("VBoxContainer/HBoxContainer2/OptionButton")
+fast_produce_check = NodePath("VBoxContainer/CheckBox")
+infinite_money_check = NodePath("VBoxContainer/CheckBox2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug" unique_id=69413074]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug" unique_id=69413074]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer" unique_id=887293904]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=887293904]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=1758486257]
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer" unique_id=1758486257]
+layout_mode = 2
+text = "click to clear range"
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer" unique_id=1613812855]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=763656794]
-layout_mode = 2
-text = "click to clear"
-
-[node name="SpinBox" type="SpinBox" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=1613812855]
-layout_mode = 2
-prefix = "range"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer" unique_id=1764794696]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=1764794696]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=2012831827]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=1735016617]
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer2" unique_id=2012831827]
 layout_mode = 2
 text = "click to spawn"
 
-[node name="OptionButton" type="OptionButton" parent="CanvasLayer/HBoxContainer/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=1962080397]
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer2" unique_id=1962080397]
 layout_mode = 2
 item_count = 2
 popup/item_0/text = "Bomb"
@@ -255,14 +349,62 @@ popup/item_0/id = 0
 popup/item_1/text = "Flag"
 popup/item_1/id = 1
 
-[node name="Hover" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1425160865 node_paths=PackedStringArray("txt")]
-unique_name_in_owner = true
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=1626051364]
 layout_mode = 2
-script = ExtResource("8_5vw27")
-txt = NodePath("Text")
+text = "fast produce"
 
-[node name="Text" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Hover" unique_id=860818878]
+[node name="CheckBox2" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=898673040]
 layout_mode = 2
+text = "infinite money"
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System" unique_id=1633711094]
+layout_mode = 2
+text = "Save & Quit"
+
+[node name="Block" type="Control" parent="CanvasLayer/Control/HBoxContainer/Control" unique_id=273776095]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/Control/Block" unique_id=1849410327]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/Block/PanelContainer" unique_id=724768607]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Errors" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control" unique_id=556575808]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="VFX" type="Control" parent="CanvasLayer/Control" unique_id=403586981]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("22_ryguw")
 
 [node name="StepTimer" type="Timer" parent="." unique_id=1020722935]
 wait_time = 0.1

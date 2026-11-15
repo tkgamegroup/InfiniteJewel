@@ -11,13 +11,14 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(1, 1, 1, 1)
 
-[node name="Talent" type="Control" unique_id=1048144208 node_paths=PackedStringArray("button", "txt")]
+[node name="Talent" type="Control" unique_id=1048144208 node_paths=PackedStringArray("frame", "button", "txt")]
 custom_minimum_size = Vector2(42, 69)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 16.0
 offset_bottom = 16.0
 script = ExtResource("1_rydx6")
+frame = NodePath("VBoxContainer/PanelContainer")
 button = NodePath("VBoxContainer/PanelContainer/Button")
 txt = NodePath("VBoxContainer/Label")
 

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Technologies" format=3 uid="uid://bgwgytx16cvsx"]
+
+[ext_resource type="Script" uid="uid://x7vl3yith37d" path="res://resources/technology.gd" id="1_s68tw"]
+[ext_resource type="Script" uid="uid://66owklumrf8f" path="res://resources/technologies.gd" id="2_w0n60"]
+
+[sub_resource type="Resource" id="Resource_s68tw"]
+script = ExtResource("1_s68tw")
+name = "Explosive Refinement"
+index = 8
+duration = 1200
+spell_name = "tech_explosive_refinement"
+metadata/_custom_type_script = "uid://x7vl3yith37d"
+
+[resource]
+script = ExtResource("2_w0n60")
+datas = Array[ExtResource("1_s68tw")]([SubResource("Resource_s68tw")])
+metadata/_custom_type_script = "uid://66owklumrf8f"
