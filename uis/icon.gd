@@ -1,6 +1,6 @@
 extends Control
 
-class_name UiItem
+class_name UiIcon
 
 @export var button : TextureButton
 @export var number : Label

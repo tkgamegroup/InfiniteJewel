@@ -8,7 +8,7 @@ script = ExtResource("1_feaku")
 name = "Bomb"
 category = &"Bomb"
 image_id = 8
-description = "After 3 sec, explode and deals %power% damage to gems within a %range%-ring radius."
+description = "After 3 sec, explode and deals %power% damage within %range%-ring."
 max_stack = 3
 power = 40
 range = 1
@@ -29,6 +29,11 @@ script = ExtResource("1_feaku")
 name = "C4"
 category = &"Bomb"
 image_id = 8
+description = "When caught in an explosion, explode and deals %power% damage within %range%-ring."
+max_stack = 3
+power = 100
+range = 2
+spell_names = Array[String](["item_C4"])
 metadata/_custom_type_script = "uid://p5pqbgmmm17u"
 
 [resource]

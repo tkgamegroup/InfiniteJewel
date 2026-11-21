@@ -6,10 +6,11 @@ class_name UiWarehouse
 
 func insert(idx : int):
 	var arr = G.warehouse_items[idx]
-	var ui = G.item_pb.instantiate()
+	var res_id = arr[0].res_id
+	var ui = G.icon_pb.instantiate()
 	ui.setup(arr[0])
 	ui.set_pressed(func():
-		G.select_item(idx)
+		G.select_item(res_id)
 	)
 	ui.number.show()
 	list.add_child(ui)

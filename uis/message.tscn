@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://lvedrc62tume"]
 
-[node name="ErrorString" type="Label" unique_id=1129246806]
+[node name="Message" type="Label" unique_id=1129246806]
 custom_minimum_size = Vector2(100, 0)
 anchors_preset = 15
 anchor_right = 1.0

@@ -1,20 +1,39 @@
 [gd_scene format=3 uid="uid://cskvv7238ctk5"]
 
 [ext_resource type="Script" uid="uid://dnhi701mpoiqc" path="res://uis/building_task.gd" id="1_377ro"]
-[ext_resource type="PackedScene" uid="uid://bv5f3ccrychur" path="res://uis/item.tscn" id="2_h2ydt"]
+[ext_resource type="PackedScene" uid="uid://ddno2ameayof3" path="res://uis/icon.tscn" id="2_377ro"]
 
-[node name="Task" type="HBoxContainer" unique_id=1467380989 node_paths=PackedStringArray("item_ui", "progress_bar", "cancel_button")]
+[node name="Task" type="HBoxContainer" unique_id=1467380989 node_paths=PackedStringArray("icon", "progress_bar", "text", "cancel_button")]
+custom_minimum_size = Vector2(200, 0)
+size_flags_horizontal = 3
 script = ExtResource("1_377ro")
-item_ui = NodePath("Item")
+icon = NodePath("Icon")
 progress_bar = NodePath("ProgressBar")
+text = NodePath("ProgressBar/Label")
 cancel_button = NodePath("Button")
 
-[node name="Item" parent="." unique_id=588206830 instance=ExtResource("2_h2ydt")]
+[node name="Icon" parent="." unique_id=415571145 instance=ExtResource("2_377ro")]
 layout_mode = 2
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=1651349242]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
+show_percentage = false
+
+[node name="Label" type="Label" parent="ProgressBar" unique_id=1470904333]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Button" type="Button" parent="." unique_id=722158177]
 layout_mode = 2

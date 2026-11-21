@@ -59,8 +59,8 @@ func _ready() -> void:
 						G.set_money(G.money - cost)
 						grant()
 					else:
-						G.add_error_string("Money")
+						G.add_message("Money")
 				else:
-					G.add_error_string("Condition")
+					G.add_message("Condition")
 	)
 	

@@ -8,12 +8,10 @@ class_name UiPatterns
 @export var shop_list : Control
 @export var shop_refresh_button : Button
 
-const pattern_pb = preload("res://uis/pattern.tscn")
-
 var on_sells : Array[Array] # 0 - ID, 1 - Pattern, 2 - Price
 
 func on_add_pattern(p : Pattern):
-	var ui = pattern_pb.instantiate()
+	var ui = G.pattern_pb.instantiate()
 	ui.setup(p)
 	list.add_child(ui)
 
@@ -71,7 +69,7 @@ func refresh_shop():
 		on_sells.append([item_id, p, price])
 		next_item_id += 1
 		var ctrl = VBoxContainer.new()
-		var ui = pattern_pb.instantiate()
+		var ui = G.pattern_pb.instantiate()
 		ui.setup(p)
 		var btn = Button.new()
 		btn.text = "Buy %dG" % price

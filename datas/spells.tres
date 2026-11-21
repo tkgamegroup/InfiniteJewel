@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cvlrgl88kcv0c" path="res://resources/spells.gd" id="3_q6ku2"]
 [ext_resource type="Script" uid="uid://qmrd310w5tt6" path="res://effects/ef_explode.gd" id="4_m8q5l"]
 [ext_resource type="Script" uid="uid://bkqvwy621gp6k" path="res://effects/ef_destroy_self.gd" id="5_mxwlr"]
+[ext_resource type="Script" uid="uid://d1la06qubgflt" path="res://effects/ef_shoot.gd" id="6_iqo7s"]
 [ext_resource type="Script" uid="uid://c83ibtub8imri" path="res://effects/ef_chain_lightning.gd" id="6_mxwlr"]
 
 [sub_resource type="Resource" id="Resource_ryguw"]
@@ -139,66 +140,6 @@ description = "Increases the range of items produced by the Tailor Shop by %m:0%
 modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_odqtw")])
 metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
 
-[sub_resource type="Resource" id="Resource_377ro"]
-script = ExtResource("2_q6ku2")
-target_type = &"AllItems"
-target_category = "Bomb"
-target_attribute = &"power"
-base_value = 8
-metadata/_custom_type_script = "uid://cxoxr2w7axopj"
-
-[sub_resource type="Resource" id="Resource_getpj"]
-script = ExtResource("1_xoirc")
-name = "tech_explosive_refinement"
-image_id = 2
-description = "Increase Bombs's power by %m:0%."
-modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_377ro")])
-metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
-
-[sub_resource type="Resource" id="Resource_iqo7s"]
-script = ExtResource("4_m8q5l")
-metadata/_custom_type_script = "uid://qmrd310w5tt6"
-
-[sub_resource type="Resource" id="Resource_bqnw6"]
-script = ExtResource("5_mxwlr")
-metadata/_custom_type_script = "uid://bkqvwy621gp6k"
-
-[sub_resource type="Resource" id="Resource_s68tw"]
-script = ExtResource("1_xoirc")
-name = "item_bomb"
-auto_cast = true
-channel_duration = 30
-channel_finished_effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_iqo7s"), SubResource("Resource_bqnw6")])
-metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
-
-[sub_resource type="Resource" id="Resource_m8q5l"]
-script = ExtResource("2_q6ku2")
-target_type = &"Gem"
-target_attribute = &"value"
-base_value = 4
-metadata/_custom_type_script = "uid://cxoxr2w7axopj"
-
-[sub_resource type="Resource" id="Resource_mlt36"]
-script = ExtResource("1_xoirc")
-name = "item_flag"
-modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_m8q5l")])
-is_aura = true
-metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
-
-[sub_resource type="Resource" id="Resource_v0mup"]
-script = ExtResource("6_mxwlr")
-interval = 1
-max_times = 30
-metadata/_custom_type_script = "uid://c83ibtub8imri"
-
-[sub_resource type="Resource" id="Resource_eupy7"]
-script = ExtResource("1_xoirc")
-name = "chain_lightning"
-image_id = 1
-channel_duration = 35
-channel_tick_effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_v0mup")])
-metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
-
 [sub_resource type="Resource" id="Resource_oogok"]
 script = ExtResource("2_q6ku2")
 target_type = &"AllBuildings"
@@ -220,7 +161,7 @@ target_type = &"AllByildings"
 value_per_lv = 4
 metadata/_custom_type_script = "uid://cxoxr2w7axopj"
 
-[sub_resource type="Resource" id="Resource_d13ii"]
+[sub_resource type="Resource" id="Resource_vdybx"]
 script = ExtResource("1_xoirc")
 name = "talent_foundational_research"
 image_id = 1
@@ -234,7 +175,7 @@ target_type = &"AllBuildings"
 value_per_lv = 5
 metadata/_custom_type_script = "uid://cxoxr2w7axopj"
 
-[sub_resource type="Resource" id="Resource_1u8w0"]
+[sub_resource type="Resource" id="Resource_0jdfu"]
 script = ExtResource("1_xoirc")
 name = "talent_bonus_product"
 image_id = 1
@@ -242,7 +183,122 @@ description = "Has a %m:0%%% chance to produce an additional item."
 modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_o36hd")])
 metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
 
+[sub_resource type="Resource" id="Resource_ssnqc"]
+script = ExtResource("2_q6ku2")
+target_type = &"Game"
+target_attribute = &"watchtower_enable"
+type = 2
+value_per_lv = 1
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_eywyh"]
+script = ExtResource("1_xoirc")
+name = "talent_watchtower"
+image_id = 1
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_ssnqc")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_377ro"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllItems"
+target_category = "Bomb"
+target_attribute = &"range"
+base_value = 1
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_iaxu1"]
+script = ExtResource("2_q6ku2")
+target_type = &"AllItems"
+target_category = "Bomb"
+target_attribute = &"power"
+base_value = 20
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_getpj"]
+script = ExtResource("1_xoirc")
+name = "tech_explosive_refinement"
+image_id = 2
+description = "Increase Bombs's range by %m:0% and power by %m:1%."
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_377ro"), SubResource("Resource_iaxu1")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_eykdp"]
+script = ExtResource("1_xoirc")
+name = "tech_ruby_detection_reagent"
+image_id = 2
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_bqnw6"]
+script = ExtResource("5_mxwlr")
+metadata/_custom_type_script = "uid://bkqvwy621gp6k"
+
+[sub_resource type="Resource" id="Resource_iqo7s"]
+script = ExtResource("4_m8q5l")
+metadata/_custom_type_script = "uid://qmrd310w5tt6"
+
+[sub_resource type="Resource" id="Resource_s68tw"]
+script = ExtResource("1_xoirc")
+name = "item_bomb"
+auto_cast = true
+channel_duration = 30
+channel_finished_effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_bqnw6"), SubResource("Resource_iqo7s")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_d13ii"]
+script = ExtResource("5_mxwlr")
+metadata/_custom_type_script = "uid://bkqvwy621gp6k"
+
+[sub_resource type="Resource" id="Resource_1u8w0"]
+script = ExtResource("4_m8q5l")
+metadata/_custom_type_script = "uid://qmrd310w5tt6"
+
+[sub_resource type="Resource" id="Resource_dl04k"]
+script = ExtResource("1_xoirc")
+name = "item_C4"
+exploded_trigger_effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_d13ii"), SubResource("Resource_1u8w0")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_m8q5l"]
+script = ExtResource("2_q6ku2")
+target_type = &"Gem"
+target_attribute = &"value"
+base_value = 4
+metadata/_custom_type_script = "uid://cxoxr2w7axopj"
+
+[sub_resource type="Resource" id="Resource_mlt36"]
+script = ExtResource("1_xoirc")
+name = "item_flag"
+modifiers = Array[ExtResource("2_q6ku2")]([SubResource("Resource_m8q5l")])
+is_aura = true
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_fmo5w"]
+script = ExtResource("6_iqo7s")
+damage = 12
+metadata/_custom_type_script = "uid://d1la06qubgflt"
+
+[sub_resource type="Resource" id="Resource_a3ft1"]
+script = ExtResource("1_xoirc")
+name = "shoot"
+image_id = 1
+effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_fmo5w")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
+[sub_resource type="Resource" id="Resource_v0mup"]
+script = ExtResource("6_mxwlr")
+interval = 1
+max_times = 30
+metadata/_custom_type_script = "uid://c83ibtub8imri"
+
+[sub_resource type="Resource" id="Resource_eupy7"]
+script = ExtResource("1_xoirc")
+name = "chain_lightning"
+image_id = 1
+channel_duration = 35
+channel_tick_effects = Array[ExtResource("2_kq38u")]([SubResource("Resource_v0mup")])
+metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
+
 [resource]
 script = ExtResource("3_q6ku2")
-datas = Array[ExtResource("1_xoirc")]([SubResource("Resource_ryguw"), SubResource("Resource_cwuoo"), SubResource("Resource_1vrd4"), SubResource("Resource_t5e6d"), SubResource("Resource_07hmj"), SubResource("Resource_0oy2a"), SubResource("Resource_mxwlr"), SubResource("Resource_qnd6r"), SubResource("Resource_l7wcb"), SubResource("Resource_getpj"), SubResource("Resource_s68tw"), SubResource("Resource_mlt36"), SubResource("Resource_eupy7"), SubResource("Resource_27vps"), SubResource("Resource_d13ii"), SubResource("Resource_1u8w0")])
+datas = Array[ExtResource("1_xoirc")]([SubResource("Resource_ryguw"), SubResource("Resource_cwuoo"), SubResource("Resource_1vrd4"), SubResource("Resource_t5e6d"), SubResource("Resource_07hmj"), SubResource("Resource_0oy2a"), SubResource("Resource_mxwlr"), SubResource("Resource_qnd6r"), SubResource("Resource_l7wcb"), SubResource("Resource_27vps"), SubResource("Resource_vdybx"), SubResource("Resource_0jdfu"), SubResource("Resource_eywyh"), SubResource("Resource_getpj"), SubResource("Resource_eykdp"), SubResource("Resource_s68tw"), SubResource("Resource_dl04k"), SubResource("Resource_mlt36"), SubResource("Resource_a3ft1"), SubResource("Resource_eupy7")])
 metadata/_custom_type_script = "uid://cvlrgl88kcv0c"

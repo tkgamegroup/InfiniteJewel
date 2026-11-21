@@ -6,12 +6,17 @@
 [sub_resource type="Resource" id="Resource_s68tw"]
 script = ExtResource("1_s68tw")
 name = "Explosive Refinement"
-index = 8
 duration = 1200
 spell_name = "tech_explosive_refinement"
 metadata/_custom_type_script = "uid://x7vl3yith37d"
 
+[sub_resource type="Resource" id="Resource_t5e6d"]
+script = ExtResource("1_s68tw")
+name = "Ruby Detection Reagent"
+spell_name = "tech_ruby_detection_reagent"
+metadata/_custom_type_script = "uid://x7vl3yith37d"
+
 [resource]
 script = ExtResource("2_w0n60")
-datas = Array[ExtResource("1_s68tw")]([SubResource("Resource_s68tw")])
+datas = Array[ExtResource("1_s68tw")]([SubResource("Resource_s68tw"), SubResource("Resource_t5e6d")])
 metadata/_custom_type_script = "uid://66owklumrf8f"

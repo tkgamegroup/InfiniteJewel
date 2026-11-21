@@ -6,8 +6,6 @@ const type_name : StringName = &"Tech"
 
 @export var name : String
 @export var description : String
-@export var index : int = -1
-@export var duration : int
 @export var spell_name : String
 
 var spell : Spell
@@ -17,7 +15,7 @@ func acquire():
 	if acquired:
 		return
 	acquired = true
-	spell.apply([], 1)
+	spell.apply(self, [], 1)
 
 func get_description(lv : int) -> String:
 	if lv == -1:

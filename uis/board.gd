@@ -6,6 +6,7 @@ class_name UiBoard
 @export var tilemap : TileMapLayer
 @export var content : Control
 @export var watch_dragger : Control
+@export var area_unlock_text : Label
 var watch_dragging : bool = false
 var watch_dragger_offset : float
 

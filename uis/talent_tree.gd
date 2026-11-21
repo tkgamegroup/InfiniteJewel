@@ -6,7 +6,6 @@ class_name UiTalentTree
 @export var dependencies_layer : Control
 @export var timer : Timer
 
-const talent_pb = preload("res://uis/talent.tscn")
 const slot_size = Vector2(42, 69)
 const max_columns = 5
 const hgap = 48.0
@@ -31,7 +30,7 @@ func _ready() -> void:
 					slot.custom_minimum_size = slot_size
 					container.add_child(slot)
 		var col = t.column
-		var ui = talent_pb.instantiate()
+		var ui = G.talent_pb.instantiate()
 		ui.setup(t)
 		container.get_child(row * max_columns + col).add_child(ui)
 		t.ui = ui

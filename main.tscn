@@ -121,7 +121,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Board" type="Control" parent="CanvasLayer/Control/HBoxContainer" unique_id=619510278 node_paths=PackedStringArray("scroller", "tilemap", "content", "watch_dragger")]
+[node name="Board" type="Control" parent="CanvasLayer/Control/HBoxContainer" unique_id=619510278 node_paths=PackedStringArray("scroller", "tilemap", "content", "watch_dragger", "area_unlock_text")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -130,6 +130,7 @@ scroller = NodePath("ScrollContainer")
 tilemap = NodePath("ScrollContainer/Content/TileMap")
 content = NodePath("ScrollContainer/Content")
 watch_dragger = NodePath("ScrollContainer/Content/WatchDragger")
+area_unlock_text = NodePath("ScrollContainer/Content/AreaUnlockText")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/HBoxContainer/Board" unique_id=700748220]
 layout_mode = 1
@@ -157,6 +158,16 @@ offset_bottom = 16.0
 texture_normal = ExtResource("15_82xsv")
 stretch_mode = 5
 
+[node name="AreaUnlockText" type="Label" parent="CanvasLayer/Control/HBoxContainer/Board/ScrollContainer/Content" unique_id=2094173873]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "Clear to unlock new area
+100% remaining"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Control" type="Control" parent="CanvasLayer/Control/HBoxContainer" unique_id=1832389217]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
@@ -171,17 +182,23 @@ grow_vertical = 2
 current_tab = 0
 tabs_position = 1
 
-[node name="Game" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer" unique_id=1590163407]
+[node name="Game" type="ScrollContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer" unique_id=2023257850]
 layout_mode = 2
+horizontal_scroll_mode = 0
 metadata/_tab_index = 0
 
-[node name="Money" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1868571629]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1590163407]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Money" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1868571629]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "0"
 
-[node name="Patterns" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1068804816 node_paths=PackedStringArray("list", "shop_button", "shop", "shop_list", "shop_refresh_button")]
+[node name="Patterns" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1068804816 node_paths=PackedStringArray("list", "shop_button", "shop", "shop_list", "shop_refresh_button")]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_riqys")
@@ -193,40 +210,40 @@ shop = NodePath("VBoxContainer/MarginContainer/Shop")
 shop_list = NodePath("VBoxContainer/MarginContainer/Shop/HBoxContainer")
 shop_refresh_button = NodePath("VBoxContainer/MarginContainer/Shop/RefreshButton")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns" unique_id=350805255]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Patterns" unique_id=350805255]
 layout_mode = 2
 
-[node name="List" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer" unique_id=279225395]
+[node name="List" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Patterns/VBoxContainer" unique_id=279225395]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="ShopButton" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer" unique_id=1952090656]
+[node name="ShopButton" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Patterns/VBoxContainer" unique_id=1952090656]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Shop>>"
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer" unique_id=1667259228]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Patterns/VBoxContainer" unique_id=1667259228]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Shop" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer/MarginContainer" unique_id=542330204]
+[node name="Shop" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Patterns/VBoxContainer/MarginContainer" unique_id=542330204]
 visible = false
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=635449697]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=635449697]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 
-[node name="RefreshButton" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=566980404]
+[node name="RefreshButton" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Patterns/VBoxContainer/MarginContainer/Shop" unique_id=566980404]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Refresh"
 
-[node name="Warehouse" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=2136428860 node_paths=PackedStringArray("list")]
+[node name="Warehouse" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=2136428860 node_paths=PackedStringArray("list")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -235,31 +252,36 @@ title = "Warehouse"
 script = ExtResource("9_4c57u")
 list = NodePath("VBoxContainer/PanelContainer/GridContainer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Warehouse" unique_id=1690119567]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Warehouse" unique_id=1690119567]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Warehouse/VBoxContainer" unique_id=605488020]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Warehouse/VBoxContainer" unique_id=605488020]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4c57u")
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Warehouse/VBoxContainer/PanelContainer" unique_id=1710282559]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Warehouse/VBoxContainer/PanelContainer" unique_id=1710282559]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 columns = 8
 
-[node name="Workshop" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1575978750 instance=ExtResource("12_w48qg")]
+[node name="Workshop" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1575978750 instance=ExtResource("12_w48qg")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 title = "Factory"
 
-[node name="TailorShop" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1396936368 instance=ExtResource("12_w48qg")]
+[node name="TailorShop" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1396936368 instance=ExtResource("12_w48qg")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 title = "TailorShop"
 
-[node name="TalentTree" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1901142948 node_paths=PackedStringArray("container", "dependencies_layer", "timer")]
+[node name="Watchtower" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=610021675 instance=ExtResource("12_w48qg")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="TalentTree" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1901142948 node_paths=PackedStringArray("container", "dependencies_layer", "timer")]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kek77")
@@ -269,39 +291,42 @@ container = NodePath("VBoxContainer/MarginContainer/PanelContainer/GridContainer
 dependencies_layer = NodePath("VBoxContainer/MarginContainer/PanelContainer/Dependencies")
 timer = NodePath("Timer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree" unique_id=1204611643]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/TalentTree" unique_id=1204611643]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer" unique_id=29858917]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/TalentTree/VBoxContainer" unique_id=29858917]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer/MarginContainer" unique_id=240023571]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/TalentTree/VBoxContainer/MarginContainer" unique_id=240023571]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4c57u")
 
-[node name="Dependencies" type="Control" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer/MarginContainer/PanelContainer" unique_id=190614701]
+[node name="Dependencies" type="Control" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/TalentTree/VBoxContainer/MarginContainer/PanelContainer" unique_id=190614701]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree/VBoxContainer/MarginContainer/PanelContainer" unique_id=464074446]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/TalentTree/VBoxContainer/MarginContainer/PanelContainer" unique_id=464074446]
 layout_mode = 2
 theme_override_constants/h_separation = 48
 theme_override_constants/v_separation = 24
 
-[node name="Timer" type="Timer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/TalentTree" unique_id=1648396179]
+[node name="Timer" type="Timer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/TalentTree" unique_id=1648396179]
 wait_time = 0.1
 autostart = true
 
-[node name="Hover" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game" unique_id=1425160865 node_paths=PackedStringArray("txt")]
+[node name="Hover" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1425160865 node_paths=PackedStringArray("txt")]
 unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("8_5vw27")
 txt = NodePath("Text")
 
-[node name="Text" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/Hover" unique_id=860818878]
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Hover" unique_id=849313021]
+layout_mode = 2
+
+[node name="Text" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Hover" unique_id=860818878]
 layout_mode = 2
 
 [node name="System" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer" unique_id=269777062]
@@ -384,7 +409,7 @@ mouse_filter = 2
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Errors" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control" unique_id=556575808]
+[node name="Messages" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control" unique_id=556575808]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

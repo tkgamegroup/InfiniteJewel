@@ -1,23 +1,23 @@
-[gd_scene format=3 uid="uid://bv5f3ccrychur"]
+[gd_scene format=3 uid="uid://ddno2ameayof3"]
 
-[ext_resource type="Script" uid="uid://vluftr2u18h8" path="res://uis/item.gd" id="1_svxlk"]
+[ext_resource type="Script" uid="uid://brxepjg7l48ia" path="res://uis/icon.gd" id="1_0ye6g"]
 
-[node name="Item" type="Panel" unique_id=588206830 node_paths=PackedStringArray("button", "number")]
+[node name="Icon" type="Panel" unique_id=822693971 node_paths=PackedStringArray("button", "number")]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(36, 36)
 offset_right = 36.0
 offset_bottom = 36.0
-script = ExtResource("1_svxlk")
+script = ExtResource("1_0ye6g")
 button = NodePath("TextureButton")
 number = NodePath("Label")
 
-[node name="TextureButton" type="TextureButton" parent="." unique_id=1511094803]
+[node name="TextureButton" type="TextureButton" parent="." unique_id=734403528]
 layout_mode = 0
 offset_right = 36.0
 offset_bottom = 36.0
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="." unique_id=1675121205]
+[node name="Label" type="Label" parent="." unique_id=1662207683]
 visible = false
 layout_mode = 1
 anchors_preset = 3

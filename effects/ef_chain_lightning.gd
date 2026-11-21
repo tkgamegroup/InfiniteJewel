@@ -7,14 +7,12 @@ class_name EfChainLightning
 @export var falloff : int = 30
 @export var max_times : int = 3
 
-const lightning_pb = preload("res://sprites/lightning.tscn")
+const lightning_pb = preload("uid://dfous5jr3f2mn")
 
 func start_channeling(caster, env : Dictionary):
 	env.times = 0
-	var page_range = G.get_board_page_range()
-	page_range[1] -= 10
 	env.coord = Vector2i(-1, -1)
-	env.next_coord = Vector2i(randi_range(0, G.board_width), randf_range(page_range[0], page_range[1]))
+	env.next_coord = G.get_board_page_random_coord()
 
 func channel(caster, env : Dictionary):
 	if env.times < max_times:

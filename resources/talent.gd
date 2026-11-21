@@ -21,9 +21,9 @@ var ui : UiTalent = null
 func add_points(v : int):
 	v = min(v, max_lv - lv)
 	if v > 0:
-		spell.revert([])
+		spell.revert(self, [])
 		lv += v
-		spell.apply([], lv)
+		spell.apply(self, [], lv)
 		G.talent_tree.update_spent_points()
 
 func is_max_lv():

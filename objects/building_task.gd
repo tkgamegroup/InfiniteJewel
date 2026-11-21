@@ -10,6 +10,6 @@ var channeling : Channeling = Channeling.new()
 func advance():
 	var sp = 1
 	if G.debug_ui.fast_produce:
-		sp *= 10
+		sp *= 100
 	progress += sp
 	return sp

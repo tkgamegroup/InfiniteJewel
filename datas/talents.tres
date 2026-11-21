@@ -121,7 +121,15 @@ costs = Array[int]([0, 0])
 spell_name = "talent_bonus_product"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
+[sub_resource type="Resource" id="Resource_odqtw"]
+script = ExtResource("2_p5d6p")
+row = 4
+name = "Watchtower"
+costs = Array[int]([1000])
+spell_name = "talent_watchtower"
+metadata/_custom_type_script = "uid://dg6npybf7hsgn"
+
 [resource]
 script = ExtResource("1_w43cn")
-tree = Array[ExtResource("2_p5d6p")]([SubResource("Resource_dg77c"), SubResource("Resource_4mjps"), SubResource("Resource_ryguw"), SubResource("Resource_074og"), SubResource("Resource_w48qg"), SubResource("Resource_l7wcb"), SubResource("Resource_ucfgc"), SubResource("Resource_t5e6d"), SubResource("Resource_iqo7s"), SubResource("Resource_mxwlr"), SubResource("Resource_d5ip6")])
+tree = Array[ExtResource("2_p5d6p")]([SubResource("Resource_dg77c"), SubResource("Resource_4mjps"), SubResource("Resource_ryguw"), SubResource("Resource_074og"), SubResource("Resource_w48qg"), SubResource("Resource_l7wcb"), SubResource("Resource_ucfgc"), SubResource("Resource_t5e6d"), SubResource("Resource_iqo7s"), SubResource("Resource_mxwlr"), SubResource("Resource_d5ip6"), SubResource("Resource_odqtw")])
 metadata/_custom_type_script = "uid://dd4do0lmqm6bu"

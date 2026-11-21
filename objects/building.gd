@@ -67,18 +67,22 @@ func collect_products():
 	
 	ui.update_product_list()
 
-func task_rewind(t : BuildingTask):
-	var p = products[t.id]
-	t.duration = p.duration
+func get_duration(p : Product):
+	var ret = p.duration
 	match p.type_name:
 		&"Item":
 			var decrease = get_attr(&"production_time_decrease")
 			if decrease > 0:
-				t.duration *= (100 - decrease) * 0.01
+				ret *= (100 - decrease) * 0.01
 		&"Tech":
 			var decrease = get_attr(&"research_time_decrease")
 			if decrease > 0:
-				t.duration *= (100 - decrease) * 0.01
+				ret *= (100 - decrease) * 0.01
+	return ret
+
+func task_rewind(t : BuildingTask):
+	var p = products[t.id]
+	t.duration = get_duration(p)
 	t.progress = 0
 
 func add_task(idx : int):
@@ -112,7 +116,7 @@ func step():
 				&"Item":
 					var slot = G.warehouse_available_slot(p.id)
 					if slot != -1:
-						if t.progress >= p.duration:
+						if t.progress >= t.duration:
 							var item = Item.new()
 							item.setup(p.id)
 							G.warehouse_add_item(item, slot)
@@ -120,7 +124,7 @@ func step():
 						else:
 							t.advance()
 				&"Tech":
-					if t.progress >= p.duration:
+					if t.progress >= t.duration:
 						var tech = G.technologies.datas[p.id]
 						tech.acquire()
 						collect_products()
@@ -135,16 +139,21 @@ func step():
 						if !t.channeling.spell:
 							task_rewind(t)
 					else:
-						if t.progress >= p.duration:
+						if t.progress >= t.duration:
 							if spell.name == "upgrade":
 								lv += 1
 								collect_products()
 								remove_task(i)
 								ui.update_title()
 							else:
-								if spell.channel_duration != -1:
-									t.channeling.start(self, spell)
-									t.duration = -spell.channel_duration
-									t.progress = 0
+								if !spell.effects.is_empty():
+									for e in spell.effects:
+										e.excute(self)
+									task_rewind(t)
+								else:
+									if spell.channel_duration != -1:
+										t.channeling.start(self, spell)
+										t.duration = -spell.channel_duration
+										t.progress = 0
 						else:
 							t.advance()

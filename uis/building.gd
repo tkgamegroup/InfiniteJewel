@@ -7,7 +7,6 @@ class_name UiBuilding
 @export var timer : Timer
 
 const slot_size = Vector2(36.0, 36.0)
-const task_pb = preload("uid://cskvv7238ctk5")
 
 var building : Building
 
@@ -23,13 +22,13 @@ func update_product_list():
 		slot.custom_minimum_size = slot_size
 		product_list.add_child(slot)
 		if p:
-			var ui = G.item_pb.instantiate()
+			var ui = G.icon_pb.instantiate()
 			ui.setup(G.get_res_data(p.type_name, p.id))
 			ui.set_pressed(func():
 				building.add_task(i)
 			)
 			ui.extra_tooltip_cb = func():
-				var text = "\n------\nDuration: %ds\n" % (p.duration / 10)
+				var text = "\nDuration: %s\n" % G.format_time(building.get_duration(p))
 				match p.type_name:
 					&"Item":
 						text += "Click to produce."
@@ -44,7 +43,7 @@ func update_task_list():
 	for n in task_list.get_children():
 		n.queue_free()
 	for i in building.tasks.size():
-		var ui = task_pb.instantiate()
+		var ui = G.task_pb.instantiate()
 		ui.setup(building, i)
 		task_list.add_child(ui)
 

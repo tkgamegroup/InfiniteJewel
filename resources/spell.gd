@@ -10,9 +10,11 @@ const type_name : StringName = &"Spell"
 @export var modifiers : Array[ModifierTarget]
 @export var is_aura : bool = false
 @export var auto_cast : bool = false
+@export var effects : Array[Effect]
 @export var channel_duration : int = -1
 @export var channel_tick_effects : Array[Effect]
 @export var channel_finished_effects : Array[Effect]
+@export var exploded_trigger_effects : Array[Effect]
 
 static func is_target_satisfy(target, name : String, category : StringName):
 	if !name.is_empty():
@@ -64,37 +66,37 @@ static func get_targets(type_name : StringName, name : String = "", category : S
 					ret.append(d.dummy)
 	return ret
 
-func apply_target(t, lv : int, m : ModifierTarget):
+func apply_target(caster, t, lv : int, m : ModifierTarget):
 	if m.type == Modifier.Type.Switch:
 		t.attributes[m.target_attribute].switch(1)
 	else:
-		t.add_mod(m.target_attribute, self, m.type, m.base_value + m.value_per_lv * lv, m.priority, m.category)
+		t.add_mod(m.target_attribute, caster, m.type, m.base_value + m.value_per_lv * lv, m.priority, m.category)
 
-func revert_target(t, m : ModifierTarget):
+func revert_target(caster, t, m : ModifierTarget):
 	if m.type == Modifier.Type.Switch:
 		t.attributes[m.target_attribute].switch(0)
 	else:
-		t.remove_mod(m.target_attribute, self)
+		t.remove_mod(m.target_attribute, caster)
 
-func apply(targets : Array, lv : int):
+func apply(caster, targets : Array, lv : int):
 	for m in modifiers:
 		if targets.is_empty():
 			for t in get_targets(m.target_type, m.target_name, m.target_category):
-				apply_target(t, lv, m)
+				apply_target(caster, t, lv, m)
 		else:
 			for t in targets:
 				if t.type_name == m.target_type && is_target_satisfy(t, m.target_name, m.target_category):
-					apply_target(t, lv, m)
+					apply_target(caster, t, lv, m)
 
-func revert(targets : Array):
+func revert(caster, targets : Array):
 	for m in modifiers:
 		if targets.is_empty():
 			for t in get_targets(m.target_type, m.target_name, m.target_category):
-				revert_target(t, m)
+				revert_target(caster, t, m)
 		else:
 			for t in targets:
 				if t.type_name == m.target_type && is_target_satisfy(t, m.target_name, m.target_category):
-					revert_target(t, m)
+					revert_target(caster, t, m)
 
 func get_description(lv : int) -> String:
 	return G.format_description(description, self, lv)
