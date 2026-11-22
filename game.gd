@@ -47,7 +47,7 @@ var area_unlock_clear_region : Array[int]
 var area_unlock_clear_required_percentage : int = 10
 var area_unlock_clear_required_number : int
 var area_unlock_cleared_number : int
-var holes : Dictionary[Vector2i, int]
+var holes : Array[Array]
 var dead_cells : Dictionary[Vector2i, int]
 var board_items : Array[Item]
 
@@ -152,7 +152,7 @@ func add_new_cell(c : Vector2i):
 	var cell = Cell.new()
 	cells[c] = cell
 	var is_cave = false
-	if randi() % 100 < 3:
+	if c.y > 20 && randi() % 100 < 3:
 		is_cave = true
 		for cc in offset_adjacents(c):
 			if caves.has(cc):
@@ -317,6 +317,20 @@ func take_damage(c : Vector2i, value : int, is_crit : bool):
 		if g.durability <= 0:
 			destroy_cell(c)
 
+func add_hole(c : Vector2i):
+	var arr = holes[c.x]
+	var l = 0
+	var r = arr.size()
+	while l < r:
+		var m = (l + r) / 2
+		if arr[m] == c.y:
+			return
+		elif arr[m] > c.y:
+			l = m + 1
+		else:
+			r = m
+	arr.insert(l, c.y)
+
 func destroy_cell(c : Vector2i):
 	if dead_cells.has(c):
 		return
@@ -442,6 +456,44 @@ func aura_left(i : Item):
 		if s.is_aura:
 			s.revert(i, targets)
 
+func move_cell(c_up : Vector2i, c : Vector2i):
+	if is_valid_coord(c_up):
+		var cell_up = cells[c_up]
+		var cell = cells[c]
+		if !cell_up.is_empty():
+			var g = cell_up.gem
+			var i = cell_up.item
+			if !cell_up.auras.is_empty() && (g || i):
+				for ac in cell_up.auras:
+					var a = cells[ac].item
+					for s in a.spells:
+						if s.is_aura:
+							if g:
+								s.revert(a, [g])
+							if i:
+								s.revert(a, [i])
+			if i && i.is_aura():
+				aura_left(i)
+			cell_up.gem = null
+			cell_up.item = null
+			cell.gem = g
+			cell.item = i
+			if i:
+				i.coord = c
+			if !cell.auras.is_empty() && (g || i):
+				for ac in cell_up.auras:
+					var a = cells[ac].item
+					for s in i.spells:
+						if s.is_aura:
+							if g:
+								s.apply(a, [g], 0)
+							if i:
+								s.apply(a, [i], 0)
+			if i && i.is_aura():
+				aura_entered(i)
+			return true
+	return false
+
 var damage_ticks : int = 0
 
 func step():
@@ -472,7 +524,7 @@ func step():
 	
 	for c in dead_cells.keys():
 		if !caves.has(c):
-			holes[c] = 1
+			add_hole(c)
 		var cell = cells[c]
 		cell.gem = null
 		if cell.item:
@@ -484,60 +536,34 @@ func step():
 			area_unlock_cleared_number += 1
 	dead_cells.clear()
 	
-	var new_holes : Dictionary[Vector2i, int] = {}
-	var new_poses : Dictionary[Vector2i, Vector2i] = {}
-	var current_holes = holes.keys()
-	current_holes.sort_custom(func(a: Vector2i, b: Vector2i): return a.y < b.y)
-	for c in current_holes:
-		var c_up = Vector2i(c.x, c.y - 1)
-		if caves.has(c_up):
-			c_up.y -= 1
-		if is_valid_coord(c_up):
-			var cell_up = cells[c_up]
-			var cell = cells[c]
-			if !cell_up.is_empty():
-				var g = cell_up.gem
-				var i = cell_up.item
-				if !cell_up.auras.is_empty() && (g || i):
-					for ac in cell_up.auras:
-						var a = cells[ac].item
-						for s in a.spells:
-							if s.is_aura:
-								if g:
-									s.revert(a, [g])
-								if i:
-									s.revert(a, [i])
-				if i && i.is_aura():
-					aura_left(i)
-				cell_up.gem = null
-				cell_up.item = null
-				cell.gem = g
-				cell.item = i
-				if i:
-					i.coord = c
-				if !cell.auras.is_empty() && (g || i):
-					for ac in cell_up.auras:
-						var a = cells[ac].item
-						for s in i.spells:
-							if s.is_aura:
-								if g:
-									s.apply(a, [g], 0)
-								if i:
-									s.apply(a, [i], 0)
-				if i && i.is_aura():
-					aura_entered(i)
-				new_holes[c_up] = 1
-				for x in range(-3, 4):
-					for y in range(-3, 4):
-						new_poses[c + Vector2i(x, y)] = c
-	holes = new_holes
+	var new_poses : Dictionary[Vector2i, Array] = {}
+	for x in board_width:
+		var arr = holes[x]
+		for i in arr.size():
+			var y = arr[i]
+			var c = Vector2i(x, y)
+			var c_up = Vector2i(x, y - 1)
+			if caves.has(c_up):
+				c_up.y -= 1
+			if is_valid_coord(c_up):
+				if move_cell(c_up, c):
+					arr[i] = c_up.y
+					for xx in range(-3, 4):
+						for yy in range(-3, 4):
+							new_poses.get_or_add(c + Vector2i(xx, yy), []).append(c)
 	
 	for off in new_poses.keys():
 		for p in patterns:
 			var res = p.match_with(off)
-			if res.has(new_poses[off]):
+			var ok = false
+			for c in res:
+				var arr = new_poses[off]
+				if arr.has(c):
+					ok = true
+					break
+			if ok:
+				add_combo_text(res)
 				for c in res:
-					add_combo_text(res)
 					destroy_cell(c)
 
 func refresh_cell(c : Vector2i):
@@ -620,6 +646,8 @@ func cancel_selct_item():
 	unblock_controls()
 
 func _ready() -> void:
+	holes.resize(board_width)
+	
 	spells = load("uid://drfsf7frpauo8")
 	talent_tree = load("uid://cuec3l8g0e5k6")
 	talent_tree.setup()
@@ -735,3 +763,21 @@ func _ready() -> void:
 	refresh_timer.timeout.connect(refresh_board)
 	board_size_timer.timeout.connect(update_board_size)
 	hover_timer.timeout.connect(update_hover)
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if debug_ui.key_change_color_enable:
+			if event.is_pressed():
+				var coord = board_ui.tilemap.local_to_map(board_ui.get_local_mouse_position())
+				if is_valid_coord(coord):
+					var g = cells[coord].gem
+					if g:
+						if event.keycode >= KEY_1 && event.keycode <= KEY_5:
+							var col = Colors.Red + event.keycode - KEY_1
+							if g.color != col:
+								g.color = col
+								refresh_cell(coord)
+		if debug_ui.manual:
+			if event.is_pressed():
+				if event.keycode == KEY_F1:
+					step()

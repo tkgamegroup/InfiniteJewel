@@ -23,6 +23,13 @@ func update_hover(coord : Vector2i):
 					text += "Unknown"
 				else:
 					text += "Cave"
-		var cc = G.offset_to_cube(coord)
-		text += "\n%d, %d (%d, %d, %d)" % [coord.x, coord.y, cc.x, cc.y, cc.z]
-	txt.text = text
+	var cc = G.offset_to_cube(coord)
+	text += "\n%d, %d (%d, %d, %d)" % [coord.x, coord.y, cc.x, cc.y, cc.z]
+	txt.text = text.trim_prefix("\n")
+	
+	var matched_text = ""
+	for i in G.patterns.size():
+		var p = G.patterns[i]
+		if !p.match_with(coord).is_empty():
+			matched_text += "\npattern %d is matched" % (i + 1)
+	G.debug_ui.matched_text.text = matched_text.trim_prefix("\n")
