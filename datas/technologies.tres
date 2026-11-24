@@ -6,7 +6,6 @@
 [sub_resource type="Resource" id="Resource_s68tw"]
 script = ExtResource("1_s68tw")
 name = "Explosive Refinement"
-duration = 1200
 spell_name = "tech_explosive_refinement"
 metadata/_custom_type_script = "uid://x7vl3yith37d"
 

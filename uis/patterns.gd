@@ -42,7 +42,7 @@ func buy(id : int):
 	for i in on_sells.size():
 		var item = on_sells[i]
 		if item[0] == id && G.money >= item[2]:
-			G.set_money(G.money - item[2])
+			G.add_money(-item[2])
 			G.add_pattern(item[1])
 			var ui = shop_list.get_child(i)
 			ui.queue_free()

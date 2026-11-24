@@ -5,23 +5,19 @@
 
 [sub_resource type="Resource" id="Resource_dg77c"]
 script = ExtResource("2_p5d6p")
-row = null
 column = 1
 name = "Sharpen"
 max_lv = 5
-costs = Array[int]([20, 100, 600, 5000, 50000])
-dependency = null
+costs = Array[int]([40, 400, 1500, 3000, 5000])
 spell_name = "talent_sharpen"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
 [sub_resource type="Resource" id="Resource_4mjps"]
 script = ExtResource("2_p5d6p")
-row = null
 column = 3
 name = "Gem Polishing"
 max_lv = 5
-costs = Array[int]([20, 100, 600, 5000, 50000])
-dependency = null
+costs = Array[int]([40, 300, 1200, 2500, 4500])
 spell_name = "talent_gem_polishing"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
@@ -30,7 +26,7 @@ script = ExtResource("2_p5d6p")
 row = 1
 name = "Critical Strike"
 max_lv = 5
-costs = Array[int]([500, 2500, 15000, 120000, 1200000])
+costs = Array[int]([100, 200, 350, 600, 1000])
 spell_name = "talent_critical_strike"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
@@ -40,9 +36,7 @@ row = 1
 column = 2
 name = "Cave"
 description = "Displays caves, where you can place items on them."
-max_lv = null
 costs = Array[int]([100])
-dependency = null
 spell_name = "talent_cave"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
@@ -51,8 +45,7 @@ script = ExtResource("2_p5d6p")
 row = 2
 name = "Workshop"
 description = "Unlock workshop."
-max_lv = null
-costs = Array[int]([100])
+costs = Array[int]([600])
 dependency = "Cave"
 spell_name = "talent_workshop"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
@@ -63,7 +56,7 @@ row = 2
 column = 1
 name = "Advanced Crafting"
 max_lv = 5
-costs = Array[int]([0, 0, 0, 0, 0])
+costs = Array[int]([600, 1800, 3600, 5400, 7500])
 dependency = "Workshop"
 spell_name = "talent_advanced_crafting"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
@@ -74,8 +67,7 @@ row = 2
 column = 3
 name = "Tailor Shop"
 description = "Unlock tailor shop."
-max_lv = null
-costs = null
+costs = Array[int]([600])
 dependency = "Cave"
 spell_name = "talent_tailor_shop"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
@@ -86,7 +78,7 @@ row = 2
 column = 4
 name = "Vibrant Dyes"
 max_lv = 2
-costs = Array[int]([0, 0])
+costs = Array[int]([1200, 4500])
 dependency = "Tailor Shop"
 spell_name = "talent_vibrant_dyes"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
@@ -97,7 +89,7 @@ row = 3
 column = 1
 name = "Rapid Production"
 max_lv = 5
-costs = Array[int]([0, 0, 0, 0, 0])
+costs = Array[int]([1800, 3000, 4800, 7600, 10500])
 spell_name = "talent_rapid_production"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
@@ -107,7 +99,7 @@ row = 3
 column = 2
 name = "Foundational Research"
 max_lv = 5
-costs = Array[int]([0, 0, 0, 0, 0])
+costs = Array[int]([1800, 3000, 4800, 7600, 10500])
 spell_name = "talent_foundational_research"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
@@ -117,7 +109,7 @@ row = 3
 column = 3
 name = "Bonus Product"
 max_lv = 2
-costs = Array[int]([0, 0])
+costs = Array[int]([2400, 6000])
 spell_name = "talent_bonus_product"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 
@@ -125,7 +117,7 @@ metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 script = ExtResource("2_p5d6p")
 row = 4
 name = "Watchtower"
-costs = Array[int]([1000])
+costs = Array[int]([3000])
 spell_name = "talent_watchtower"
 metadata/_custom_type_script = "uid://dg6npybf7hsgn"
 

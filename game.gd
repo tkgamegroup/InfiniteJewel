@@ -57,14 +57,16 @@ var board_items : Array[Item]
 @onready var block_ui : Control = $/root/Main/%Block
 @onready var block_txt : Label = $/root/Main/%Block/PanelContainer/Label
 @onready var money_txt : Label = $/root/Main/%Money
+@onready var quick_stats : Label = $/root/Main/%QuickStats
 @onready var patterns_ui : UiPatterns = $/root/Main/%Patterns
 @onready var warehouse_ui : UiWarehouse = $/root/Main/%Warehouse
 @onready var workshop_ui : UiBuilding = $/root/Main/%Workshop
 @onready var tailor_shop_ui : UiBuilding = $/root/Main/%TailorShop
 @onready var watchtower_ui : UiBuilding = $/root/Main/%Watchtower
 @onready var talent_tree_ui : UiTalentTree = $/root/Main/%TalentTree
-@onready var debug_ui : UiDebug = $/root/Main/%Debug
 @onready var hover_ui : UiHover = $/root/Main/%Hover
+@onready var statictics_ui : UiStatistics = $/root/Main/%Statistics
+@onready var debug_ui : UiDebug = $/root/Main/%Debug
 @onready var messages_ui : Control = $/root/Main/%Messages
 @onready var step_timer : Timer = $/root/Main/StepTimer
 @onready var refresh_timer : Timer = $/root/Main/RefreshTimer
@@ -162,7 +164,8 @@ func add_new_cell(c : Vector2i):
 	if !is_cave:
 		var g = Gem.new()
 		color = Colors.Red + randi() % 5
-		g.setup(color, 1 + c.y, 1 + int(c.y / 256))
+		var n = int(c.y / 20)
+		g.setup(color, 15 + n * n, 1 + int(c.y / 256))
 		cell.gem = g
 	else:
 		caves[c] = 1
@@ -236,9 +239,12 @@ func get_ui_pos(obj):
 			return obj.ui.get_global_rect().get_center()
 	return Vector2(0.0, 0.0)
 
-func set_money(v : int):
-	money = v
-	money_txt.text = "%d" % money
+func add_money(v : int):
+	if v != 0:
+		money += v
+		money_txt.text = "%d" % money
+		if v > 0:
+			statictics_ui.accumulated_income += v
 
 func add_pattern(p : Pattern):
 	patterns.append(p)
@@ -316,6 +322,7 @@ func take_damage(c : Vector2i, value : int, is_crit : bool):
 		add_damage_number(c, value, is_crit)
 		if g.durability <= 0:
 			destroy_cell(c)
+		statictics_ui.accumulated_damage += value
 
 func add_hole(c : Vector2i):
 	var arr = holes[c.x]
@@ -347,7 +354,7 @@ func destroy_cell(c : Vector2i):
 	var target_rect = money_txt.get_global_rect()
 	tween.tween_property(sp, "position", target_rect.position + Vector2(0, target_rect.size.y * 0.5), 0.5)
 	tween.tween_callback(func():
-		set_money(money + value)
+		add_money(value)
 	)
 	tween.tween_callback(sp.queue_free)
 	dead_cells[c] = 1
@@ -411,21 +418,12 @@ func place_item(warehouse_slot : int, c : Vector2i):
 		board_items.append(i)
 	return ret[1]
 
-func random_place_from_top():
-	var cands = []
-	for x in G.board_width:
-		var c = Vector2i(x, G.board_upper)
-		if G.cells[c].is_empty():
-			cands.append(x)
-	if !cands.is_empty():
-		var x = cands[randi_range(0, cands.size() - 1)]
-		var c = Vector2i(x, 1)
-		while true:
-			if !G.cells[c].is_empty():
-				c.y = c.y - 1
-				break
-			c.y = c.y + 1
-		return c
+func get_first_place():
+	for y in range(board_upper, board_lower):
+		for x in G.board_width:
+			var c = Vector2i(x, y)
+			if caves.has(c) && cells[c].is_empty():
+				return c
 	return Vector2i(-1, -1)
 
 func aura_entered(i : Item):
@@ -483,7 +481,7 @@ func move_cell(c_up : Vector2i, c : Vector2i):
 			if !cell.auras.is_empty() && (g || i):
 				for ac in cell_up.auras:
 					var a = cells[ac].item
-					for s in i.spells:
+					for s in a.spells:
 						if s.is_aura:
 							if g:
 								s.apply(a, [g], 0)
@@ -497,8 +495,27 @@ func move_cell(c_up : Vector2i, c : Vector2i):
 var damage_ticks : int = 0
 
 func step():
-	var watch_page = board_ui.get_page_pct()
-	watch_start = Vector2i(0, watch_offset + max(int(round(lerp(board_upper, board_lower, watch_page[0]))), board_upper))
+	var page = board_ui.get_page_pct()
+	var page_start = max(int(round(lerp(board_upper, board_lower, page[0]))), board_upper)
+	
+	if debug_ui.auto_watch:
+		watch_offset = -1
+		for i in 64:
+			for x in board_width:
+				var off = Vector2i(x, page_start + i)
+				for p in patterns:
+					var res = p.match_with(off)
+					if !res.is_empty():
+						watch_offset = i
+						break
+				if watch_offset != -1:
+					break
+			if watch_offset != -1:
+				break
+		if watch_offset == -1:
+			watch_offset = 0
+	
+	watch_start = Vector2i(0, watch_offset + page_start)
 	watch_end = Vector2i(G.board_width, watch_start.y + watch_size)
 	board_ui.content.queue_redraw()
 	
@@ -518,6 +535,11 @@ func step():
 	
 	for b in buildings:
 		b.step()
+	
+	if debug_ui.auto_place:
+		while !warehouse_items.is_empty():
+			var c = get_first_place()
+			place_item(0, c)
 	
 	for i in board_items:
 		i.step()
@@ -565,6 +587,8 @@ func step():
 				add_combo_text(res)
 				for c in res:
 					destroy_cell(c)
+	
+	statictics_ui.step()
 
 func refresh_cell(c : Vector2i):
 	var img_id = -1
@@ -781,3 +805,13 @@ func _input(event: InputEvent) -> void:
 			if event.is_pressed():
 				if event.keycode == KEY_F1:
 					step()
+				elif event.keycode == KEY_F2:
+					for i in 10:
+						step()
+				elif event.keycode == KEY_F3:
+					for i in 100:
+						step()
+	elif event is InputEventMouseButton:
+		if selecting_item != -1:
+			if event.is_pressed() && event.button_index == MOUSE_BUTTON_RIGHT:
+				cancel_selct_item()

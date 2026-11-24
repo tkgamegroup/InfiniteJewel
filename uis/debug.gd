@@ -7,8 +7,10 @@ var click_clear_range : int = 0
 var click_spawn_enable : bool = false
 var click_spawn_id : int = -1
 var key_change_color_enable : bool = false
-var fast_produce : bool = true
-var infinite_money : bool = true
+var fast_produce : bool = false
+var infinite_money : bool = false
+var auto_watch : bool = false
+var auto_place : bool = false
 var manual : bool = false
 
 @export var click_clear_check : CheckBox
@@ -18,6 +20,8 @@ var manual : bool = false
 @export var key_change_color_check : CheckBox
 @export var fast_produce_check : CheckBox
 @export var infinite_money_check : CheckBox
+@export var auto_watch_check : CheckBox
+@export var auto_place_check : CheckBox
 @export var manual_check : CheckBox
 @export var matched_text : Label
 
@@ -48,7 +52,17 @@ func _ready() -> void:
 	infinite_money_check.toggled.connect(func(v : bool):
 		infinite_money = v
 	)
+	auto_watch_check.set_pressed_no_signal(auto_watch)
+	auto_watch_check.toggled.connect(func(v : bool):
+		auto_watch = v
+	)
+	auto_place_check.set_pressed_no_signal(auto_place)
+	auto_place_check.toggled.connect(func(v : bool):
+		auto_place = v
+	)
 	manual_check.set_pressed_no_signal(manual)
+	if manual:
+		G.step_timer.stop()
 	manual_check.toggled.connect(func(v : bool):
 		manual = v
 		if v:

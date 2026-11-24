@@ -20,7 +20,7 @@ script = ExtResource("1_feaku")
 name = "Flag"
 image_id = 10
 max_stack = 3
-range = 16
+range = 13
 spell_names = Array[String](["item_flag"])
 metadata/_custom_type_script = "uid://p5pqbgmmm17u"
 

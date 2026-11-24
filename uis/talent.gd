@@ -56,7 +56,7 @@ func _ready() -> void:
 				if talent.is_prerequisites_met():
 					var cost = talent.next_lv_cost()
 					if G.money >= cost:
-						G.set_money(G.money - cost)
+						G.add_money(-cost)
 						grant()
 					else:
 						G.add_message("Money")

@@ -262,7 +262,7 @@ metadata/_custom_type_script = "uid://bm8qwwoeplv6j"
 script = ExtResource("2_q6ku2")
 target_type = &"Gem"
 target_attribute = &"value"
-base_value = 4
+base_value = 3
 metadata/_custom_type_script = "uid://cxoxr2w7axopj"
 
 [sub_resource type="Resource" id="Resource_mlt36"]

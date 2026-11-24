@@ -4,7 +4,7 @@ class_name TalentTree
 
 @export var tree : Array[Talent]
 
-var spent_points : Array[int]
+var spent_points : int = 0
 
 func find(n : String):
 	for i in tree.size():
@@ -23,9 +23,6 @@ func setup():
 	update_spent_points()
 
 func update_spent_points():
-	spent_points.clear()
+	spent_points = 0
 	for t in tree:
-		var row = t.row
-		if spent_points.size() < row + 1:
-			spent_points.resize(row + 1)
-		spent_points[row] += t.lv
+		spent_points += t.lv

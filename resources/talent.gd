@@ -37,7 +37,7 @@ func next_lv_cost():
 	return costs[lv]
 
 func is_prerequisites_met():
-	if row > 0 && G.talent_tree.spent_points[row - 1] < 5:
+	if row > 0 && G.talent_tree.spent_points < 5 * row:
 		return false
 	if !dependency.is_empty():
 		var dep = G.talent_tree.find_data(dependency)

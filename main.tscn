@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://qipx32obyrgn" path="res://uis/building.tscn" id="12_w48qg"]
 [ext_resource type="Texture2D" uid="uid://7x1n7n5vo7cl" path="res://images/dragger.png" id="15_82xsv"]
 [ext_resource type="Script" uid="uid://dgcu1uiyd6oxd" path="res://uis/debug.gd" id="20_getpj"]
+[ext_resource type="Script" uid="uid://biw3gxo5m33hp" path="res://uis/statistics.gd" id="21_d13ii"]
 [ext_resource type="Script" uid="uid://ctltj40cr4phx" path="res://uis/visual_effects.gd" id="22_ryguw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5vw27"]
@@ -192,11 +193,26 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Money" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1868571629]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=88928915]
+layout_mode = 2
+
+[node name="Money" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/HBoxContainer" unique_id=1868571629]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
 text = "0"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/HBoxContainer" unique_id=1973368393]
+layout_mode = 2
+
+[node name="QuickStats" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=776847925]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "IPS: 0.0
+DPS: 0.0
+00:00"
 
 [node name="Patterns" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1068804816 node_paths=PackedStringArray("list", "shop_button", "shop", "shop_list", "shop_refresh_button")]
 unique_name_in_owner = true
@@ -317,68 +333,6 @@ theme_override_constants/v_separation = 24
 wait_time = 0.1
 autostart = true
 
-[node name="Debug" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1994131737 node_paths=PackedStringArray("click_clear_check", "click_clear_range_spin", "click_spawn_check", "click_spawn_option", "key_change_color_check", "fast_produce_check", "infinite_money_check", "manual_check", "matched_text")]
-unique_name_in_owner = true
-layout_mode = 2
-title = "Debug"
-script = ExtResource("20_getpj")
-click_clear_check = NodePath("VBoxContainer/HBoxContainer/CheckBox")
-click_clear_range_spin = NodePath("VBoxContainer/HBoxContainer/SpinBox")
-click_spawn_check = NodePath("VBoxContainer/HBoxContainer2/CheckBox")
-click_spawn_option = NodePath("VBoxContainer/HBoxContainer2/OptionButton")
-key_change_color_check = NodePath("VBoxContainer/CheckBox3")
-fast_produce_check = NodePath("VBoxContainer/CheckBox")
-infinite_money_check = NodePath("VBoxContainer/CheckBox2")
-manual_check = NodePath("VBoxContainer/CheckBox4")
-matched_text = NodePath("VBoxContainer/Label")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug" unique_id=69413074]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer" unique_id=887293904]
-layout_mode = 2
-
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=1758486257]
-layout_mode = 2
-text = "click to clear range"
-
-[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer/HBoxContainer" unique_id=1613812855]
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer" unique_id=1764794696]
-layout_mode = 2
-
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=2012831827]
-layout_mode = 2
-text = "click to spawn"
-
-[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer/HBoxContainer2" unique_id=1962080397]
-layout_mode = 2
-item_count = 2
-popup/item_0/text = "Bomb"
-popup/item_0/id = 0
-popup/item_1/text = "Flag"
-popup/item_1/id = 1
-
-[node name="CheckBox3" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer" unique_id=426571688]
-layout_mode = 2
-text = "press key to change color"
-
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer" unique_id=1626051364]
-layout_mode = 2
-text = "fast produce"
-
-[node name="CheckBox2" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer" unique_id=898673040]
-layout_mode = 2
-text = "infinite money"
-
-[node name="CheckBox4" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer" unique_id=1760739810]
-layout_mode = 2
-text = "Manual"
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Debug/VBoxContainer" unique_id=1615710737]
-layout_mode = 2
-
 [node name="Hover" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer" unique_id=1425160865 node_paths=PackedStringArray("txt")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -391,10 +345,115 @@ layout_mode = 2
 [node name="Text" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Game/VBoxContainer/Hover" unique_id=860818878]
 layout_mode = 2
 
+[node name="Statistics" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer" unique_id=60123141 node_paths=PackedStringArray("income_txt", "damage_txt", "reset_button")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("21_d13ii")
+income_txt = NodePath("HBoxContainer/Label2")
+damage_txt = NodePath("HBoxContainer2/Label2")
+reset_button = NodePath("Button")
+metadata/_tab_index = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Statistics" unique_id=401480826]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Statistics/HBoxContainer" unique_id=1194783197]
+layout_mode = 2
+text = "Income per second: "
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Statistics/HBoxContainer" unique_id=2017450511]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Statistics" unique_id=498074384]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Statistics/HBoxContainer2" unique_id=1553085439]
+layout_mode = 2
+text = "Damage per second: "
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Statistics/HBoxContainer2" unique_id=1430820586]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/Statistics" unique_id=303901173]
+layout_mode = 2
+
 [node name="System" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer" unique_id=269777062]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 1
+metadata/_tab_index = 2
+
+[node name="Debug" type="FoldableContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System" unique_id=1994131737 node_paths=PackedStringArray("click_clear_check", "click_clear_range_spin", "click_spawn_check", "click_spawn_option", "key_change_color_check", "fast_produce_check", "infinite_money_check", "auto_watch_check", "auto_place_check", "manual_check", "matched_text")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Debug"
+script = ExtResource("20_getpj")
+click_clear_check = NodePath("VBoxContainer/HBoxContainer/CheckBox")
+click_clear_range_spin = NodePath("VBoxContainer/HBoxContainer/SpinBox")
+click_spawn_check = NodePath("VBoxContainer/HBoxContainer2/CheckBox")
+click_spawn_option = NodePath("VBoxContainer/HBoxContainer2/OptionButton")
+key_change_color_check = NodePath("VBoxContainer/CheckBox3")
+fast_produce_check = NodePath("VBoxContainer/CheckBox")
+infinite_money_check = NodePath("VBoxContainer/CheckBox2")
+auto_watch_check = NodePath("VBoxContainer/CheckBox5")
+auto_place_check = NodePath("VBoxContainer/CheckBox6")
+manual_check = NodePath("VBoxContainer/CheckBox4")
+matched_text = NodePath("VBoxContainer/Label")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug" unique_id=69413074]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=887293904]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer" unique_id=1758486257]
+layout_mode = 2
+text = "click to clear range"
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer" unique_id=1613812855]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=1764794696]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer2" unique_id=2012831827]
+layout_mode = 2
+text = "click to spawn"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer/HBoxContainer2" unique_id=1962080397]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Bomb"
+popup/item_0/id = 0
+popup/item_1/text = "Flag"
+popup/item_1/id = 1
+
+[node name="CheckBox3" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=426571688]
+layout_mode = 2
+text = "press key to change color"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=1626051364]
+layout_mode = 2
+text = "fast produce"
+
+[node name="CheckBox2" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=898673040]
+layout_mode = 2
+text = "infinite money"
+
+[node name="CheckBox5" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=534881649]
+layout_mode = 2
+text = "auto watch"
+
+[node name="CheckBox6" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=1812864740]
+layout_mode = 2
+text = "auto place"
+
+[node name="CheckBox4" type="CheckBox" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=1760739810]
+layout_mode = 2
+text = "manual"
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System/Debug/VBoxContainer" unique_id=1615710737]
+layout_mode = 2
 
 [node name="Button" type="Button" parent="CanvasLayer/Control/HBoxContainer/Control/TabContainer/System" unique_id=1633711094]
 layout_mode = 2
